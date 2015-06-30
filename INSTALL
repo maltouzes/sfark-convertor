@@ -1,0 +1,26 @@
+Installing Sfark-convertor
+=================
+
+Requirements
+------------
+
+Sfark-convertor should work on any fairly recent GNU/Linux system, the following
+dependencies are required:
+
+    * python >= 2.7
+    * kivy >= 1.1.0
+
+Installation
+------------
+
+Sfark-convertor uses Python's distutils framework for installation. In order to
+install Sfark-convertor, you will need root access. To install Sfark-convertor, perform
+the following command as root:
+
+      $ python setup.py install
+
+Run Sfark-convertor
+-----------
+
+If you installed Sfark-convertor using the setup.py script, you can launch the
+program by typing "Sfark-convertor" at the command line.
