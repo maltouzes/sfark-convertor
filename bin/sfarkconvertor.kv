@@ -1,0 +1,58 @@
+sfark:
+<sfark>:
+	orientation: "vertical"	
+	# Appel system a partir de diato.sfArk
+	sfarksf2: sfarkFile
+
+	BoxLayout: 
+		Label: 
+			text:"Veuillez choisir la soundfont sfArk à décompresser"
+			size_hint_x: 25
+			
+	BoxLayout:
+		height: "30dp"
+		size_hint_y: None
+		Button:
+			text: "Choisir fichier"
+			on_release: root.show_load()
+
+
+	BoxLayout:		
+		height: "30dp"	
+		size_hint_y: None	
+		TextInput:
+			id: sfarkFile	
+			# size_hint_x: 50
+			text: "diato.sfArk"
+
+# Utilisé pour os.system dans main.py
+	BoxLayout:
+		height: "30dp"
+		size_hint_y: None
+		Button:
+			size_hint_x: 25
+			text: "Convertir"
+			on_press: root.convertSfark()
+			
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserIconView:
+            id: filechooser
+
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Annuler"
+                on_release: root.cancel()
+
+
+            Button:
+                text: "Choisir"
+                on_release: root.load(filechooser.path, filechooser.selection)
+				
