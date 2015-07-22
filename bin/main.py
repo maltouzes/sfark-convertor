@@ -45,7 +45,7 @@ class sfark(BoxLayout):
 		#with open(os.path.join(path, filename[0])) as stream:
 		#	self.text_input.text = stream.read()
 			
-		#self.dismiss_popup()
+		self.dismiss_popup()
 		
 class sfarkconvertorApp(App):
 	title = "sfArk Convertor"
