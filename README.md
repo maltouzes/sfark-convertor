@@ -15,6 +15,8 @@ If you want to convert Sfark file to sf2 please take a look at this: https://git
 
 # Installation
 Prerequisites: 
+* https://github.com/raboof/sfArkLib
+* https://github.com/raboof/sfarkxtc
 
 
 You can always reach me on:
