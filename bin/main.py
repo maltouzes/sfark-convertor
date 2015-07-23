@@ -5,6 +5,9 @@ from kivy.properties import ObjectProperty
 from kivy.factory import Factory
 from kivy.uix.popup import Popup
 
+import ntpath
+import inspect
+
 import os
 
 class LoadDialog(BoxLayout):
@@ -18,14 +21,24 @@ class sfark(BoxLayout):
 	text_input = ObjectProperty(None)
 
 	sfarksf2 = ObjectProperty()
- 
+	
 	# call ./sfarkxtc command line, onli from text input for now 
 	def convertSfark(self):
-		a = ("{}".format(self.sfarksf2.text))
+		
+		#a = ("{}".format(self.sfarksf2.text))
+		a = (sfarkFileName)
 		b = "exemple.sf2"
-		exe = "cd /home/user/MAO/sfarkxtc-master && ./sfarkxtc " + (a) + " " +(b)
+		exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (a) + " " +(b)
 		print (exe)
 		os.system(exe)
+		
+		
+		
+###### Check if path exist
+		#os.path.exists(path)
+
+    	## Return True if path refers to an existing path. Returns False for broken symbolic links. On some platforms, this function may return False if permission is not granted to execute os.stat() on the requested file, even if the path physically exists.
+		
 
 
 	def dismiss_popup(self):
@@ -40,13 +53,30 @@ class sfark(BoxLayout):
 			
 # Choose sfark file here
 	def load(self, path, filename):
-		sfarkPath =  os.path.join(path)
+		
+		sfarkPath =  os.path.join(path)						
 		print (sfarkPath)
-		#with open(os.path.join(path, filename[0])) as stream:
-		#	self.text_input.text = stream.read()
-			
+
+		sfarkName = (filename)			
+		
+		sfarkName = sfarkName[0]
+		
+		print sfarkName
+		
+		lenSfarkName = len(sfarkName)
+		lenSfarkPath = len(sfarkPath)
+		lenSfarkPath += 1 
+		
+		lenok = (lenSfarkPath) - (lenSfarkName)
+					
+		sfarkFileName = (sfarkName[lenok:])
+		print (sfarkFileName)
+		global sfarkPath
+		global sfarkFileName
 		self.dismiss_popup()
 		
+
+#########	App #################	
 class sfarkconvertorApp(App):
 	title = "sfArk Convertor"
 	pass
