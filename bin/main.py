@@ -4,17 +4,26 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.factory import Factory
 from kivy.uix.popup import Popup
+from kivy.uix.progressbar import ProgressBar
 
-import ntpath
-import inspect
+
+import subprocess
+#import ntpath
+#import inspect
 
 import os
 
 class LoadDialog(BoxLayout):
     load = ObjectProperty(None)
     cancel = ObjectProperty(None)
-
-
+##### need to implement cancel (close)
+class corruptPopup(BoxLayout):
+	def corrupt(self):
+				content = corruptPopup()
+				self._popup = Popup(title="ok", content = content,
+									size_hint=(0.9, 0.9))
+				self._popup.open()
+				
 class sfark(BoxLayout):
 	loadfile = ObjectProperty(None)
 	savefile = ObjectProperty(None)
@@ -40,19 +49,43 @@ class sfark(BoxLayout):
 		lenSfarkFileNameOk = lenSfarkFileName - 5
 		sf2FileName =  (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
 			
-		exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (sfarkFileName) + " " + (sf2FileName) + " && rm " + (sfarkPath) + "/sfarkxtc"
+		exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (sfarkFileName) + " " + (sf2FileName) + " > sfarkTest.txt" + " && rm " + (sfarkPath) + "/sfarkxtc"
 		print (exe)
 		print (sf2FileName)
+		
 		os.system(exe)
 		
+		# call sfarkTest.txt
+		sfarkPathtxt = (sfarkPath) + "/sfarkTest.txt"
+		print sfarkPath
+		print sfarkPathtxt
+		a = open(sfarkPathtxt).read().lower()
+		print a
+		type (a) 
+	
+		#### test corrupt in sfarkTest
+		test = "corrupt" 
+		if "corrupt" in a:
+			print "Veuillez choisir un fichier sfArk valide"
+			###### need to implement cancel (close)
+			def corrupt(self):
+				content = corruptPopup()
+				self._popup = Popup(title="ok", content = content,
+									size_hint=(0.9, 0.9))
+				self._popup.open()
+				
+			corrupt(self)	
+		else:
+			pass
 		
 		
-###### Check if path exist
-		#os.path.exists(path)
-
-    	## Return True if path refers to an existing path. Returns False for broken symbolic links. On some platforms, this function may return False if permission is not granted to execute os.stat() on the requested file, even if the path physically exists.
+		if "successful" in a:
+			print "Conversion reussie"
+		else: 
+			pass
+			
 		
-
+		##################		
 
 	def dismiss_popup(self):
 		self._popup.dismiss()
