@@ -25,11 +25,24 @@ class sfark(BoxLayout):
 	# call ./sfarkxtc command line, onli from text input for now 
 	def convertSfark(self):
 		
+		sfarkxtcPath = os.getcwd()
+		sfarkxtc = sfarkxtcPath + "/sfarkxtc"
+		print (sfarkxtc)
+		commandcp = "cp " + (sfarkxtc) + " " + (sfarkPath)
+		print (commandcp)
+		os.system(commandcp)
+		
+		#
 		#a = ("{}".format(self.sfarksf2.text))
-		a = (sfarkFileName)
-		b = "exemple.sf2"
-		exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (a) + " " +(b)
+		
+		### convert file.sfArk to file.sf2
+		lenSfarkFileName = len(sfarkFileName)
+		lenSfarkFileNameOk = lenSfarkFileName - 5
+		sf2FileName =  (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
+			
+		exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (sfarkFileName) + " " + (sf2FileName) + " && rm " + (sfarkPath) + "/sfarkxtc"
 		print (exe)
+		print (sf2FileName)
 		os.system(exe)
 		
 		
@@ -73,8 +86,9 @@ class sfark(BoxLayout):
 		print (sfarkFileName)
 		global sfarkPath
 		global sfarkFileName
-		self.dismiss_popup()
 		
+		self.dismiss_popup()
+		return (sfarkFileName)
 
 #########	App #################	
 class sfarkconvertorApp(App):
