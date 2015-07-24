@@ -58,3 +58,17 @@ sfark:
                 text: "Choisir"               
                 on_release: root.load(filechooser.path, filechooser.selection)
 				
+
+<corruptPopup>:
+	BoxLayout:
+		Label: 
+			text:"Veuillez choisir un fichier sfArk"
+			size_hint_x: 25
+	    BoxLayout:
+        	size_hint_y: None
+            height: 30
+            Button:
+                text: "Fermer"
+                on_release: root.cancel()		
+			
+			
