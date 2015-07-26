@@ -16,13 +16,6 @@ import os
 class LoadDialog(BoxLayout):
     load = ObjectProperty(None)
     cancel = ObjectProperty(None)
-##### need to implement cancel (close)
-class corruptPopup(BoxLayout):
-	def corrupt(self):
-				content = corruptPopup()
-				self._popup = Popup(title="ok", content = content,
-									size_hint=(0.9, 0.9))
-				self._popup.open()
 				
 class sfark(BoxLayout):
 	loadfile = ObjectProperty(None)
@@ -53,6 +46,7 @@ class sfark(BoxLayout):
 		print (exe)
 		print (sf2FileName)
 		
+			
 		os.system(exe)
 		
 		# call sfarkTest.txt
@@ -64,23 +58,47 @@ class sfark(BoxLayout):
 		type (a) 
 	
 		#### test corrupt in sfarkTest
-		test = "corrupt" 
+		#test = "corrupt" 
 		if "corrupt" in a:
 			print "Veuillez choisir un fichier sfArk valide"
 			###### need to implement cancel (close)
+			class corruptPopup(BoxLayout):
+				cancel = ObjectProperty(None)
 			def corrupt(self):
-				content = corruptPopup()
-				self._popup = Popup(title="ok", content = content,
+				content = corruptPopup(cancel=self.dismiss_popup)
+				self._popup = Popup(title="Fichier sfArk non valide", content = content,
 									size_hint=(0.9, 0.9))
 				self._popup.open()
 				
-			corrupt(self)	
+			corrupt(self)				
 		else:
 			pass
 		
+		if "incompatible" in a:
+			print "Version sfArk non prise en charge (version 2 uniquement)"
+			class incompatiblePopup(BoxLayout):
+				cancel = ObjectProperty(None)
+			def incompatible(self):
+				content = incompatiblePopup(cancel=self.dismiss_popup)
+				self._popup = Popup(title="sfArk to sf2", content = content,
+									size_hint=(0.9, 0.9))
+				self._popup.open()
+				
+			incompatible(self)
+		else: 
+			pass	
 		
 		if "successful" in a:
 			print "Conversion reussie"
+			class SuccessfulPopup(BoxLayout):
+				cancel = ObjectProperty(None)
+			def Successful(self):
+				content = SuccessfulPopup(cancel=self.dismiss_popup)
+				self._popup = Popup(title="sfArk to sf2", content = content,
+									size_hint=(0.9, 0.9))
+				self._popup.open()
+				
+			Successful(self)
 		else: 
 			pass
 			
