@@ -24,14 +24,22 @@ class sfark(BoxLayout):
 
 	sfarksf2 = ObjectProperty()
 	
+	global sfarkPath
+	sfarkPath = ""
+	global sfarkxtc
+	sfarkxtc = ""	
+	global sfarkFileName 
+	sfarkFileName = ""
+	
 	# call ./sfarkxtc command line, onli from text input for now 
 	def convertSfark(self):
 		
 		sfarkxtcPath = os.getcwd()
 		sfarkxtc = sfarkxtcPath + "/sfarkxtc"
-		print (sfarkxtc)
+		print "#############################"
+		print "sfarkxtc = " + (sfarkxtc)
 		commandcp = "cp " + (sfarkxtc) + " " + (sfarkPath)
-		print (commandcp)
+		print "commandcp = " + (commandcp)
 		os.system(commandcp)
 		
 		#
@@ -44,17 +52,21 @@ class sfark(BoxLayout):
 			
 		exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (sfarkFileName) + " " + (sf2FileName) + " > sfarkTest.txt" + " && rm " + (sfarkPath) + "/sfarkxtc"
 		print (exe)
-		print (sf2FileName)
+		print "sf2FileName = " + (sf2FileName)
 		
 			
 		os.system(exe)
 		
 		# call sfarkTest.txt
 		sfarkPathtxt = (sfarkPath) + "/sfarkTest.txt"
-		print sfarkPath
-		print sfarkPathtxt
-		a = open(sfarkPathtxt).read().lower()
-		print a
+		print "sfarkPath = " + sfarkPath
+		print "sfarkPathtxt = " + sfarkPathtxt
+		a = ""
+		
+		######## Check if sfarkPathtxt exist
+		if os.path.isfile(sfarkPathtxt):
+			a = open(sfarkPathtxt).read().lower()
+		print "a = " + a
 		type (a) 
 	
 		#### test corrupt in sfarkTest
@@ -101,7 +113,20 @@ class sfark(BoxLayout):
 			Successful(self)
 		else: 
 			pass
-			
+		
+		if a == "":
+			print "Aucun fichier selectionne"
+			class aucunFichierPopup(BoxLayout):
+				cancel = ObjectProperty(None)
+			def aucunFichier(self):
+				content = aucunFichierPopup(cancel=self.dismiss_popup)
+				self._popup = Popup(title="sfArk to sf2", content = content,
+									size_hint=(0.9, 0.9))
+				self._popup.open()
+				
+			aucunFichier(self)
+		else: 
+			pass
 		
 		##################		
 
@@ -119,13 +144,13 @@ class sfark(BoxLayout):
 	def load(self, path, filename):
 		
 		sfarkPath =  os.path.join(path)						
-		print (sfarkPath)
+		print "sfarkPath = " + (sfarkPath)
 
 		sfarkName = (filename)			
 		
 		sfarkName = sfarkName[0]
 		
-		print sfarkName
+		print "sfarkName = " + sfarkName
 		
 		lenSfarkName = len(sfarkName)
 		lenSfarkPath = len(sfarkPath)
@@ -134,7 +159,7 @@ class sfark(BoxLayout):
 		lenok = (lenSfarkPath) - (lenSfarkName)
 					
 		sfarkFileName = (sfarkName[lenok:])
-		print (sfarkFileName)
+		print "sfarkFileName = " + (sfarkFileName)
 		global sfarkPath
 		global sfarkFileName
 		
