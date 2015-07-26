@@ -61,9 +61,12 @@ sfark:
 
 <corruptPopup>:
 	BoxLayout:
+		size: root.size
+		pos: root.pos
+		orientation: "vertical"
 		Label: 
 			text:"Veuillez choisir un fichier sfArk"
-			size_hint_x: 25
+			
 	    BoxLayout:
         	size_hint_y: None
             height: 30
@@ -72,3 +75,45 @@ sfark:
                 on_release: root.cancel()		
 			
 			
+<SuccessfulPopup>:
+	BoxLayout:
+		size: root.size
+		pos: root.pos
+		orientation: "vertical"
+		Label:
+			text:"Conversion réussie"
+			
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Fermer"
+				on_release: root.cancel()	
+					
+<incompatiblePopup>:
+	BoxLayout:
+		size: root.size
+		pos: root.pos
+		orientation: "vertical"
+		Label:
+			text:"Version sfArk non prise en charge (version 2 uniquement"
+
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Fermer"
+				on_release: root.cancel()				
+				
+<loadingPopup>:
+	BoxLayout:
+		Label:
+			text:"Conversion en cours"
+
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Fermer"
+				on_release: root.cancel()					
+				
