@@ -1,5 +1,5 @@
-sfark:
-<sfark>:
+Sfark:
+<Sfark>:
 	orientation: "vertical"	
 	# Appel system a partir de diato.sfArk
 	sfarksf2: sfarkFile
@@ -59,7 +59,7 @@ sfark:
                 on_release: root.load(filechooser.path, filechooser.selection)
 				
 
-<corruptPopup>:
+<CorruptPopup>:
 	BoxLayout:
 		size: root.size
 		pos: root.pos
@@ -90,7 +90,7 @@ sfark:
 				text: "Fermer"
 				on_release: root.cancel()	
 					
-<incompatiblePopup>:
+<IncompatiblePopup>:
 	BoxLayout:
 		size: root.size
 		pos: root.pos
@@ -117,7 +117,7 @@ sfark:
 				text: "Fermer"
 				on_release: root.cancel()					
 				
-<aucunFichierPopup>:
+<AucunFichierPopup>:
 	BoxLayout:
 		size: root.size
 		pos: root.pos
@@ -131,4 +131,34 @@ sfark:
 			Button:
 				text: "Fermer"
 				on_release: root.cancel()					
+
+<SfarkxtcPopup>:
+	BoxLayout:
+		size: root.size
+		pos: root.pos
+		orientation: "vertical"
+		Label:
+			text:"sfarkxtc introuvable"
+
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Fermer"
+				on_release: root.cancel()
+
+<XBoxLayout@BoxLayout>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+         
+           
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Fermer"
+                on_release: root.cancel()
+        
 				
