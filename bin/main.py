@@ -39,7 +39,7 @@ class Sfark(BoxLayout):
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
 
-    sfarksf2 = ObjectProperty()
+    #sfarksf2 = ObjectProperty()
 	
 	
     global sfarkPath
@@ -172,10 +172,11 @@ class Sfark(BoxLayout):
         sfarkPath =  os.path.join(path)						
         print "sfarkPath = " + (sfarkPath)
 
-        sfarkName = (filename)			
-		
+        sfarkName = (filename)
+        print sfarkName			
+        if not sfarkName:
+            sfarkName = "/"
         sfarkName = sfarkName[0]
-		
         print "sfarkName = " + sfarkName
 		
         lenSfarkName = len(sfarkName)
