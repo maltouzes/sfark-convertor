@@ -34,30 +34,51 @@ class SfarkxtcPopup(BoxLayout):
 class XBoxLayout(BoxLayout):
                 cancel = ObjectProperty(None)            
 				
+
+class AProposPopup(BoxLayout):
+        cancel = ObjectProperty(None)
+
 class Sfark(BoxLayout):
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
 
+        
     #sfarksf2 = ObjectProperty()
-	
-	
-    global sfarkPath
-    sfarkPath = ""
-    global sfarkxtc
-    sfarkxtc = ""	
-    global sfarkFileName 
-    sfarkFileName = ""
-	
+    
 	# call ./sfarkxtc command line, onli from text input for now 
     def convertSfark(self):
+        instance = SfarkConvertorApp()
+        del instance.sfarkxtc[:]
         
         sfarkxtcPath = os.getcwd()
-        sfarkxtc = sfarkxtcPath + "/sfarkxtc"
+        (instance.sfarkxtc).append(sfarkxtcPath)
+        sfarkxtc = "/sfarkxtc"
+        (instance.sfarkxtc).append(sfarkxtc)
+        sfarkxtc = "".join(instance.sfarkxtc)
+        print "sfarkxtc ok = " +sfarkxtc
         print "#############################"
-        print "sfarkxtc = " + (sfarkxtc)
+        print "sfarkxtc = "
+        print (instance.sfarkxtc)
+        #####################remove Globals
+        ##instance = SfarkConvertorApp()
+        
+        (sfarkPath) = instance.sfarkPath
+        print "instance.sfarkPath load = "
+        print (instance.sfarkPath)
+        (sfarkFileName) = instance.sfarkFileName
+        print "instance.sfarkFileName load = "
+        print (instance.sfarkFileName)
+        
+        instance = SfarkConvertorApp()
+        sfarkPath = instance.sfarkPath
+        print "instance.sfarkPath = "
+        sfarkPath = "".join(sfarkPath)
+        print sfarkPath 
         commandcp = "cp " + (sfarkxtc) + " " + (sfarkPath)
+        
         print "commandcp = " + (commandcp)
+        sfarkFileName = instance.sfarkFileName
         if os.path.isfile(sfarkxtc):
             print "sfarkxtc found"
         
@@ -67,6 +88,7 @@ class Sfark(BoxLayout):
 		#a = ("{}".format(self.sfarksf2.text))
 		
 		### convert file.sfArk to file.sf2
+            sfarkFileName = ''.join(sfarkFileName)
             lenSfarkFileName = len(sfarkFileName)
             lenSfarkFileNameOk = lenSfarkFileName - 5
             sf2FileName =  (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
@@ -179,6 +201,7 @@ class Sfark(BoxLayout):
         sfarkName = sfarkName[0]
         print "sfarkName = " + sfarkName
 		
+        
         lenSfarkName = len(sfarkName)
         lenSfarkPath = len(sfarkPath)
         lenSfarkPath += 1 
@@ -187,15 +210,38 @@ class Sfark(BoxLayout):
 					
         sfarkFileName = (sfarkName[lenok:])
         print "sfarkFileName = " + (sfarkFileName)
-        global sfarkPath
-        global sfarkFileName
-		
+       
+        
+        #self.dismiss_popup()
+        #return (sfarkPath)
+        #return (sfarkFileName)
+        instance = SfarkConvertorApp()
+        del instance.sfarkPath[:]
+        del instance.sfarkFileName[:]
+        (instance.sfarkPath).append(sfarkPath)
+        print "instance.sfarkPath load = "
+        print (instance.sfarkPath)
+        (instance.sfarkFileName).append(sfarkFileName)
+        print "instance.sfarkFileName load = "
+        print (instance.sfarkFileName)
+        
         self.dismiss_popup()
+        return (instance.sfarkPath)
+        return (instance.sfarkFileName)
+        return (sfarkPath)
         return (sfarkFileName)
+    def APropos(self):
+                    content = AProposPopup(cancel=self.dismiss_popup)
+                    self._popup = Popup(title="A propos", content = content,
+                                        size_hint=(0.9, 0.9))
+                    self._popup.open()
 
 #########	App #################	
 class SfarkConvertorApp(App):
     title = "sfArk Convertor"
+    sfarkPath = []
+    sfarkFileName = []
+    sfarkxtc = []
     pass
 	
 if __name__ == '__main__':
