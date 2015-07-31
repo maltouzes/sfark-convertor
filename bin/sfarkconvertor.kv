@@ -1,10 +1,7 @@
 Sfark:
 <Sfark>:
 	orientation: "vertical"	
-	# Appel system a partir de diato.sfArk
-	#sfarksf2: sfarkFile
-
-			
+				
 	BoxLayout: 	
 		height:"30dp"
 		size_hint_y: None
@@ -25,8 +22,6 @@ Sfark:
 			text: "Choisir fichier"
 			on_release: root.show_load()
 
-
-# os.system command
 	BoxLayout:
 		height: "30dp"
 		size_hint_y: None
@@ -36,7 +31,6 @@ Sfark:
 			on_press: root.convertSfark()
 			
 			
-
 <LoadDialog>:
     BoxLayout:
         size: root.size
@@ -51,57 +45,10 @@ Sfark:
             Button:
                 text: "Annuler"
                 on_release: root.cancel()
-
             Button:
                 text: "Choisir"               
                 on_release: root.load(filechooser.path, filechooser.selection)
-				
-
-<CorruptPopup>:
-	BoxLayout:
-		size: root.size
-		pos: root.pos
-		orientation: "vertical"
-		Label: 
-			text:"Veuillez choisir un fichier sfArk"
-			
-	    BoxLayout:
-        	size_hint_y: None
-            height: 30
-            Button:
-                text: "Fermer"
-                on_release: root.cancel()		
-			
-			
-<SuccessfulPopup>:
-	BoxLayout:
-		size: root.size
-		pos: root.pos
-		orientation: "vertical"
-		Label:
-			text:"Conversion réussie"
-			
-		BoxLayout:
-			size_hint_y: None
-			height: 30
-			Button:
-				text: "Fermer"
-				on_release: root.cancel()	
-					
-<IncompatiblePopup>:
-	BoxLayout:
-		size: root.size
-		pos: root.pos
-		orientation: "vertical"
-		Label:
-			text:"Version sfArk non prise en charge (version 2 uniquement"
-
-		BoxLayout:
-			size_hint_y: None
-			height: 30
-			Button:
-				text: "Fermer"
-				on_release: root.cancel()				
+												
 				
 <loadingPopup>:
 	BoxLayout:
@@ -115,57 +62,15 @@ Sfark:
 				text: "Fermer"
 				on_release: root.cancel()					
 				
-<AucunFichierPopup>:
-	BoxLayout:
-		size: root.size
-		pos: root.pos
-		orientation: "vertical"
-		Label:
-			text:"Aucun fichier séléctionné"
-
-		BoxLayout:
-			size_hint_y: None
-			height: 30
-			Button:
-				text: "Fermer"
-				on_release: root.cancel()					
-
-<SfarkxtcPopup>:
-	BoxLayout:
-		size: root.size
-		pos: root.pos
-		orientation: "vertical"
-		Label:
-			text:"sfarkxtc introuvable"
-
-		BoxLayout:
-			size_hint_y: None
-			height: 30
-			Button:
-				text: "Fermer"
-				on_release: root.cancel()
-
-<AProposPopup>:
-	BoxLayout:
-		size: root.size
-		pos: root.pos
-		orientation: "vertical"
-		Label:
-			text:"sfArk-convertor, Crée par Maltouzes"
-
-		BoxLayout:
-			size_hint_y: None
-			height: 30
-			Button:
-				text: "Fermer"
-				on_release: root.cancel()
 
 <XBoxLayout@BoxLayout>:
+
     BoxLayout:
         size: root.size
         pos: root.pos
         orientation: "vertical"
-         
+        Label:
+            text: root.text 
            
         BoxLayout:
             size_hint_y: None
@@ -174,4 +79,3 @@ Sfark:
                 text: "Fermer"
                 on_release: root.cancel()
         
-				
