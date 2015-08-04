@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+"""sfark-convertor is a simple GUI Sfark decompressor to sf2, it convert
+soundfonts in the legacy sfArk v2 file format to sf2.
+Only Linux is supported."""
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
@@ -42,15 +47,15 @@ class Sfark(BoxLayout):
         print "sfarkxtc ok = " + sfarkxtc
         print "#############################"
         print "sfarkxtc = "
-        print (instance.sfarkxtc)
+        print instance.sfarkxtc
 # remove Globals
 # instance = SfarkConvertorApp()
         (sfarkPath) = instance.sfarkPath
         print "instance.sfarkPath load = "
-        print (instance.sfarkPath)
+        print instance.sfarkPath
         (sfarkFileName) = instance.sfarkFileName
         print "instance.sfarkFileName load = "
-        print (instance.sfarkFileName)
+        print instance.sfarkFileName
 
         instance = SfarkConvertorApp()
         sfarkPath = instance.sfarkPath
@@ -74,10 +79,12 @@ class Sfark(BoxLayout):
             lenSfarkFileNameOk = lenSfarkFileName - 5
             sf2FileName = (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
 
-            exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (sfarkFileName) + " " + (sf2FileName) + " > sfarkTest.txt" + " && rm " + (sfarkPath) + "/sfarkxtc"
+            exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (sfarkFileName) + \
+                  " " + (sf2FileName) + " > sfarkTest.txt" + " && rm " + \
+                  (sfarkPath) + "/sfarkxtc"
 
             print "sf2FileName = " + (sf2FileName)
-            print (exe)
+            print exe
             subprocess.call(exe, shell=True)
 
 
@@ -102,7 +109,8 @@ class Sfark(BoxLayout):
                 def corrupt(self):
                     XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
                     content = XBoxLayout(cancel=self.dismiss_popup)
-                    self._popup = Popup(title="Fichier sfArk non valide", content=content,
+                    self._popup = Popup(title="Fichier sfArk non valide",
+                    content=content,
                                         size_hint=(0.9, 0.9))
                     self._popup.open()
 
@@ -114,7 +122,8 @@ class Sfark(BoxLayout):
                 print "Version sfArk non prise en charge (version 2 uniquement)"
 
                 def incompatible(self):
-                    XBoxLayout.text = 'Version sfArk non prise en charge (version 2 uniquement'
+                    XBoxLayout.text = 'Version sfArk non prise en charge \
+                                      (version 2 uniquement'
                     content = XBoxLayout(cancel=self.dismiss_popup)
                     self._popup = Popup(title="sfArk to sf2", content=content,
                                         size_hint=(0.9, 0.9))
@@ -157,11 +166,11 @@ class Sfark(BoxLayout):
             print "sfarkxtc introuvable"
 
             def SfarkxtcSearch(self):
-                    XBoxLayout.text = "sfarkxtc introuvable"
-                    content = XBoxLayout(cancel=self.dismiss_popup)
-                    self._popup = Popup(title="sfArk to sf2", content=content,
-                                        size_hint=(0.9, 0.9))
-                    self._popup.open()
+                XBoxLayout.text = "sfarkxtc introuvable"
+                content = XBoxLayout(cancel=self.dismiss_popup)
+                self._popup = Popup(title="sfArk to sf2", content=content,
+                                    size_hint=(0.9, 0.9))
+                self._popup.open()
 
             SfarkxtcSearch(self)
 
@@ -208,24 +217,24 @@ class Sfark(BoxLayout):
         del instance.sfarkFileName[:]
         (instance.sfarkPath).append(sfarkPath)
         print "instance.sfarkPath load = "
-        print (instance.sfarkPath)
+        print instance.sfarkPath
         (instance.sfarkFileName).append(sfarkFileName)
         print "instance.sfarkFileName load = "
-        print (instance.sfarkFileName)
+        print instance.sfarkFileName
 
         self.dismiss_popup()
-        return (instance.sfarkPath)
-        return (instance.sfarkFileName)
-        return (sfarkPath)
-        return (sfarkFileName)
+        return instance.sfarkPath
+        return instance.sfarkFileName
+        return sfarkPath
+        return sfarkFileName
 
     def APropos(self):
 
-                    XBoxLayout.text = 'sfArk-convertor, Cre' + u'\u00E9' + ' par Maltouzes'
-                    content = XBoxLayout(cancel=self.dismiss_popup)
-                    self._popup = Popup(title="A propos", content=content,
-                                        size_hint=(0.9, 0.9))
-                    self._popup.open()
+        XBoxLayout.text = 'sfArk-convertor, Cre' + u'\u00E9' + ' par Maltouzes'
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="A propos", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
 
 # App -------------------------------
 
