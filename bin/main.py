@@ -13,9 +13,6 @@ from kivy.uix.progressbar import ProgressBar
 from kivy.properties import StringProperty
 
 import subprocess
-# import ntpath
-# import inspect
-
 import os
 
 
@@ -32,24 +29,11 @@ class Sfark(BoxLayout):
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
-# text = StringProperty(None)
-# sfarksf2 = ObjectProperty()
-#  call ./sfarkxtc command line, onli from text input for now
 
     def convertSfark(self):
         instance = SfarkConvertorApp()
-        del instance.sfarkxtc[:]
         sfarkxtcPath = os.getcwd()
-        (instance.sfarkxtc).append(sfarkxtcPath)
-        sfarkxtc = "/sfarkxtc"
-        (instance.sfarkxtc).append(sfarkxtc)
-        sfarkxtc = "".join(instance.sfarkxtc)
-        print "sfarkxtc ok = " + sfarkxtc
-        print "#############################"
-        print "sfarkxtc = "
-        print instance.sfarkxtc
-# remove Globals
-# instance = SfarkConvertorApp()
+        sfarkxtc = "/usr/local/bin/sfarkxtc"
         (sfarkPath) = instance.sfarkPath
         print "instance.sfarkPath load = "
         print instance.sfarkPath
@@ -62,16 +46,9 @@ class Sfark(BoxLayout):
         print "instance.sfarkPath = "
         sfarkPath = "".join(sfarkPath)
         print sfarkPath
-        commandcp = "cp " + (sfarkxtc) + " " + (sfarkPath)
-
-        print "commandcp = " + (commandcp)
         sfarkFileName = instance.sfarkFileName
         if os.path.isfile(sfarkxtc):
             print "sfarkxtc found"
-
-            subprocess.call(commandcp, shell=True)
-
-# a = ("{}".format(self.sfarksf2.text))
 
 # convert file.sfArk to file.sf2
             sfarkFileName = ''.join(sfarkFileName)
@@ -79,14 +56,12 @@ class Sfark(BoxLayout):
             lenSfarkFileNameOk = lenSfarkFileName - 5
             sf2FileName = (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
 
-            exe = "cd " + (sfarkPath) + " && ./sfarkxtc " + (sfarkFileName) + \
-                  " " + (sf2FileName) + " > sfarkTest.txt" + " && rm " + \
-                  (sfarkPath) + "/sfarkxtc"
+            exe = "cd " + (sfarkPath) + " && sfarkxtc " + (sfarkFileName) + \
+                  " " + (sf2FileName) + " > sfarkTest.txt"
 
             print "sf2FileName = " + (sf2FileName)
             print exe
             subprocess.call(exe, shell=True)
-
 
 # call sfarkTest.txt
             sfarkPathtxt = (sfarkPath) + "/sfarkTest.txt"
@@ -101,10 +76,8 @@ class Sfark(BoxLayout):
             type(a)
 
 # test corrupt in sfarkTest
-# test = "corrupt"
             if "corrupt" in a:
                 print "Veuillez choisir un fichier sfArk"
-# need to implement cancel (close)
 
                 def corrupt(self):
                     XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
@@ -120,7 +93,6 @@ class Sfark(BoxLayout):
 
             if "incompatible" in a:
                 print "Version sfArk non prise en charge (version 2 uniquement)"
-
                 def incompatible(self):
                     XBoxLayout.text = 'Version sfArk non prise en charge \
                                       (version 2 uniquement'
@@ -135,7 +107,8 @@ class Sfark(BoxLayout):
 
             if "successful" in a:
                 print "Conversion reussie"
-
+                rmsfarkPathtxt = "rm " + (sfarkPathtxt) 
+                subprocess.call(rmsfarkPathtxt, shell=True)
                 def Successful(self):
                     XBoxLayout.text = "Conversion reussie"
                     content = XBoxLayout(cancel=self.dismiss_popup)
@@ -148,7 +121,6 @@ class Sfark(BoxLayout):
                 pass
 
 
-# use XBoxLayout  or AucunFichierPopup
             if a == "":
                 print "Aucun fichier selectionne"
 
@@ -209,9 +181,6 @@ class Sfark(BoxLayout):
         print "sfarkFileName = " + (sfarkFileName)
 
 
-# self.dismiss_popup()
-# return (sfarkPath)
-# return (sfarkFileName)
         instance = SfarkConvertorApp()
         del instance.sfarkPath[:]
         del instance.sfarkFileName[:]
@@ -224,9 +193,6 @@ class Sfark(BoxLayout):
 
         self.dismiss_popup()
         return instance.sfarkPath
-        return instance.sfarkFileName
-        return sfarkPath
-        return sfarkFileName
 
     def APropos(self):
 
@@ -243,8 +209,8 @@ class SfarkConvertorApp(App):
     title = "sfArk Convertor"
     sfarkPath = []
     sfarkFileName = []
-    sfarkxtc = []
     pass
 
 if __name__ == '__main__':
-    SfarkConvertorApp().run()
+    app = SfarkConvertorApp()
+    app.run()
