@@ -10,10 +10,10 @@ Sfark-convertor should work on any fairly recent GNU/Linux system, the following
 dependencies are required:
 
     Python 2.7.6
-    Kivy 1.7.2
+    Kivy 1.9.0
     https://github.com/raboof/sfArkLib
-    https://github.com/raboof/sfarkxtc
+    https://github.com/raboof/sfarkxtc (need root installation: sudo make install
 
 Usage
 
-After install sfarkxtc, copie the sfarkxtc executable to the sfArk-convertor folder. Run main.py
+Run main.py
