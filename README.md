@@ -17,14 +17,13 @@ If you want to convert Sfark file to sf2 please take a look at this: https://git
 # Installation
 Prerequisites: 
 * Python 2.7.6
-* Kivy 1.7.2
+* Kivy 1.9.0
 * https://github.com/raboof/sfArkLib
-* https://github.com/raboof/sfarkxtc
+* https://github.com/raboof/sfarkxtc (install it with root privileges: sudo make install) 
 
 # Usage
-Copie the sfarkxtc executable to the sfArk-convertor folder. Run main.py
+Run main.py
 
 You can always reach me on:
 * Github: http://github.com/maltouzes/sfark-convertor
 * Email: maltouzes@gmail.com
-
