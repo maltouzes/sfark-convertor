@@ -74,7 +74,7 @@ class Sfark(BoxLayout):
             lenSfarkFileName = len(sfarkFileName)
             lenSfarkFileNameOk = lenSfarkFileName - 5
             sf2FileName = (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
-# Test of subprocess here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Test of subprocess here !!!!!!!!!!!
 
             exe = "cd " + (sfarkPath) + " && sfarkxtc " + (sfarkFileName) + \
                   " " + (sf2FileName) + " > sfarkTest.txt"
