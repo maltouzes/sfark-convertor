@@ -34,11 +34,6 @@ class Sfark(BoxLayout):
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
 
-    def commande(cmd):
-        subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)
-        for l in cmd.stdout.readlines():
-            print l
-
     @mainthread
     def update_progress(self, line):
         self._popup.text = line
@@ -46,6 +41,13 @@ class Sfark(BoxLayout):
     @mainthread
     def transform_complete(self):
         self._popup.text = 'success'
+
+    @staticmethod
+    def commande(cmd):
+        p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)
+        for l in p.stdout.readlines():
+            print l
+
 
     def convertSfark(self):
         instance = SfarkConvertorApp()
@@ -72,14 +74,13 @@ class Sfark(BoxLayout):
             lenSfarkFileName = len(sfarkFileName)
             lenSfarkFileNameOk = lenSfarkFileName - 5
             sf2FileName = (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
-# Test of subprocess here !!!!!!
-            
+# Test of subprocess here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
             exe = "cd " + (sfarkPath) + " && sfarkxtc " + (sfarkFileName) + \
                   " " + (sf2FileName) + " > sfarkTest.txt"
 
-            
-
-            t = Thread(target=self.commande, args=('sfarkxtc', 'diato.sfArk', 'diato.sf2'))
+            sfarktest = "sfarkxtc diato.sfArk diato.sf2"
+            t = Thread(target=self.commande, args=(sfarktest,))
             t.start()
 
 
