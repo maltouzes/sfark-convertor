@@ -11,9 +11,13 @@ from kivy.factory import Factory
 from kivy.uix.popup import Popup
 from kivy.uix.progressbar import ProgressBar
 from kivy.properties import StringProperty
+from kivy.clock import mainthread
 
+import shlex
 import subprocess
+from subprocess import Popen, PIPE
 import os
+from threading import Thread
 
 
 class LoadDialog(BoxLayout):
@@ -55,18 +59,31 @@ class Sfark(BoxLayout):
             lenSfarkFileName = len(sfarkFileName)
             lenSfarkFileNameOk = lenSfarkFileName - 5
             sf2FileName = (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
+# Test of subprocess here !!!!!!
+            @mainthread
+            def update_progress(self, line):
+               self._popup.text = line
+
+            @mainthread
+            def transform_complete(self):
+                self._popup.text = 'success'
+
 
             exe = "cd " + (sfarkPath) + " && sfarkxtc " + (sfarkFileName) + \
                   " " + (sf2FileName) + " > sfarkTest.txt"
+            def commande():
+                cmd = subprocess.Popen(['dmesg'], stdout=subprocess.PIPE)
+                for l in cmd.stdout.readlines():
+                print l
 
-            print "sf2FileName = " + (sf2FileName)
-            print exe
-            subprocess.call(exe, shell=True)
+            t = Thread(target=commande, args=())
+            t.start()
+
 
 # call sfarkTest.txt
             sfarkPathtxt = (sfarkPath) + "/sfarkTest.txt"
-            print "sfarkPath = " + sfarkPath
-            print "sfarkPathtxt = " + sfarkPathtxt
+#            print "sfarkPath = " + sfarkPath
+#            print "sfarkPathtxt = " + sfarkPathtxt
             a = ""
 
 # Check if sfarkPathtxt exist
