@@ -31,8 +31,8 @@ class Sfark(BoxLayout):
     text_input = ObjectProperty(None)
 
     def sfarkrootpath(self):
-        if subprocess.call(["which","sfarkxtc"]) == 0:
-            p = subprocess.check_output(["which","sfarkxtc"])
+        if subprocess.call(["which", "sfarkxtc"]) == 0:
+            p = subprocess.check_output(["which", "sfarkxtc"])
             return p.strip()
         else:
             p = "/"
@@ -61,11 +61,11 @@ class Sfark(BoxLayout):
             sfarkPath = sfarkPath.split("/")
             sfarkFileName = sfarkPath[-1]
             print "sfarkFileName = " + sfarkFileName
-            sf2FileName = sfarkFileName[:-5] +"sf2"
+            sf2FileName = sfarkFileName[:-5] + "sf2"
             print "sf2FileName = " + (sf2FileName)
 
-            exe = "cd " + (sfarkFilePath) + " && sfarkxtc " + (sfarkFileName) + \
-                  " " + (sf2FileName) + " > sfarkTest.txt"
+            exe = "cd " + (sfarkFilePath) + " && sfarkxtc " + \
+                  (sfarkFileName) + " " + (sf2FileName) + " > sfarkTest.txt"
             print exe
             subprocess.call(exe, shell=True)
 
@@ -89,7 +89,7 @@ class Sfark(BoxLayout):
                     XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
                     content = XBoxLayout(cancel=self.dismiss_popup)
                     self._popup = Popup(title="Fichier sfArk non valide",
-                    content=content,
+                                        content=content,
                                         size_hint=(0.9, 0.9))
                     self._popup.open()
 
@@ -98,7 +98,9 @@ class Sfark(BoxLayout):
                 pass
 
             if "incompatible" in a:
-                print "Version sfArk non prise en charge (version 2 uniquement)"
+                print "Version sfArk non prise en charge \
+                       (version 2 uniquement)"
+
                 def incompatible(self):
                     XBoxLayout.text = 'Version sfArk non prise en charge \
                                       (version 2 uniquement'
@@ -113,8 +115,9 @@ class Sfark(BoxLayout):
 
             if "successful" in a:
                 print "Conversion reussie"
-                rmsfarkPathtxt = "rm " + (sfarkPathtxt) 
+                rmsfarkPathtxt = "rm " + (sfarkPathtxt)
                 subprocess.call(rmsfarkPathtxt, shell=True)
+
                 def Successful(self):
                     XBoxLayout.text = "Conversion reussie"
                     content = XBoxLayout(cancel=self.dismiss_popup)
@@ -125,7 +128,6 @@ class Sfark(BoxLayout):
                 Successful(self)
             else:
                 pass
-
 
             if a == "":
                 print "Aucun fichier selectionne"
