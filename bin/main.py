@@ -30,10 +30,16 @@ class Sfark(BoxLayout):
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
 
+    def sfarkrootpath(self):
+        p = subprocess.check_output(["which","sfarkxtc"])
+        print p
+        return p.strip()
+
     def convertSfark(self):
         instance = SfarkConvertorApp()
         sfarkxtcPath = os.getcwd()
-        sfarkxtc = "/usr/local/bin/sfarkxtc"
+        sfarkxtc = self.sfarkrootpath()
+        print sfarkxtc
         (sfarkPath) = instance.sfarkPath
         print "instance.sfarkPath load = "
         print instance.sfarkPath
