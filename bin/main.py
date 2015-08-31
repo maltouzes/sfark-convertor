@@ -33,7 +33,6 @@ class Sfark(BoxLayout):
     def sfarkrootpath(self):
         if subprocess.call(["which","sfarkxtc"]) == 0:
             p = subprocess.check_output(["which","sfarkxtc"])
-            print p
             return p.strip()
         else:
             p = "/"
@@ -47,41 +46,32 @@ class Sfark(BoxLayout):
 
     def convertSfark(self):
         instance = SfarkConvertorApp()
-        sfarkxtcPath = os.getcwd()
         sfarkxtc = self.sfarkrootpath()
-        print sfarkxtc
-        (sfarkPath) = instance.sfarkPath
-        print "instance.sfarkPath load = "
-        print instance.sfarkPath
-        (sfarkFileName) = instance.sfarkFileName
-        print "instance.sfarkFileName load = "
-        print instance.sfarkFileName
 
-        instance = SfarkConvertorApp()
+        print "sfarkPath"
+        print instance.sfarkPath
         sfarkPath = instance.sfarkPath
-        print "instance.sfarkPath = "
-        sfarkPath = "".join(sfarkPath)
-        print sfarkPath
-        sfarkFileName = instance.sfarkFileName
         if os.path.isfile(sfarkxtc):
             print "sfarkxtc found"
 
 # convert file.sfArk to file.sf2
-            sfarkFileName = ''.join(sfarkFileName)
-            lenSfarkFileName = len(sfarkFileName)
-            lenSfarkFileNameOk = lenSfarkFileName - 5
-            sf2FileName = (sfarkFileName[:lenSfarkFileNameOk]) + "sf2"
-
-            exe = "cd " + (sfarkPath) + " && sfarkxtc " + (sfarkFileName) + \
-                  " " + (sf2FileName) + " > sfarkTest.txt"
-
+            sfarkPath = "".join(sfarkPath)
+            sfarkFilePath = os.path.dirname(sfarkPath)
+            print "sfarkFilePath = " + sfarkFilePath
+            sfarkPath = sfarkPath.split("/")
+            sfarkFileName = sfarkPath[-1]
+            print "sfarkFileName = " + sfarkFileName
+            sf2FileName = sfarkFileName[:-5] +"sf2"
             print "sf2FileName = " + (sf2FileName)
+
+            exe = "cd " + (sfarkFilePath) + " && sfarkxtc " + (sfarkFileName) + \
+                  " " + (sf2FileName) + " > sfarkTest.txt"
             print exe
             subprocess.call(exe, shell=True)
 
 # call sfarkTest.txt
-            sfarkPathtxt = (sfarkPath) + "/sfarkTest.txt"
-            print "sfarkPath = " + sfarkPath
+            sfarkPathtxt = (sfarkFilePath) + "/sfarkTest.txt"
+            print "sfarkFilePath = " + sfarkFilePath
             print "sfarkPathtxt = " + sfarkPathtxt
             a = ""
 
@@ -177,36 +167,18 @@ class Sfark(BoxLayout):
 
     def load(self, path, filename):
 
+        instance = SfarkConvertorApp()
         sfarkPath = os.path.join(path)
         print "sfarkPath = " + (sfarkPath)
-
         sfarkName = (filename)
+        print "sfarkName"
         print sfarkName
         if not sfarkName:
             sfarkName = "/"
-        sfarkName = sfarkName[0]
-        print "sfarkName = " + sfarkName
-
-        lenSfarkName = len(sfarkName)
-        lenSfarkPath = len(sfarkPath)
-        lenSfarkPath += 1
-
-        lenok = (lenSfarkPath) - (lenSfarkName)
-
-        sfarkFileName = (sfarkName[lenok:])
-        print "sfarkFileName = " + (sfarkFileName)
-
-
-        instance = SfarkConvertorApp()
         del instance.sfarkPath[:]
-        del instance.sfarkFileName[:]
-        (instance.sfarkPath).append(sfarkPath)
-        print "instance.sfarkPath load = "
-        print instance.sfarkPath
-        (instance.sfarkFileName).append(sfarkFileName)
-        print "instance.sfarkFileName load = "
-        print instance.sfarkFileName
-
+        instance.sfarkPath.extend(sfarkName)
+        print "sfarkPath"
+        print (instance.sfarkPath)
         self.dismiss_popup()
         return instance.sfarkPath
 
