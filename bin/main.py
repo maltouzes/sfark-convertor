@@ -31,9 +31,19 @@ class Sfark(BoxLayout):
     text_input = ObjectProperty(None)
 
     def sfarkrootpath(self):
-        p = subprocess.check_output(["which","sfarkxtc"])
-        print p
-        return p.strip()
+        if subprocess.call(["which","sfarkxtc"]) == 0:
+            p = subprocess.check_output(["which","sfarkxtc"])
+            print p
+            return p.strip()
+        else:
+            p = "/"
+            return p
+# Add current dir path for sfarkxtc
+# else:
+# p = subprocess.check_output(["pwd"])
+# p =  p.strip() +"/sfarkxtc"
+# print p
+# return p
 
     def convertSfark(self):
         instance = SfarkConvertorApp()
