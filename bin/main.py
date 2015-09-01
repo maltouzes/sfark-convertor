@@ -42,7 +42,7 @@ class Sfark(BoxLayout):
     def transform_complete(self):
         self._popup.text = 'success'
 
-    def commande(self,cmd):
+    def commande(self, cmd):
         p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)
         for l in p.stdout:
             print l
@@ -101,7 +101,7 @@ class Sfark(BoxLayout):
                     XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
                     content = XBoxLayout(cancel=self.dismiss_popup)
                     self._popup = Popup(title="Fichier sfArk non valide",
-                    content=content,
+                                        content=content,
                                         size_hint=(0.9, 0.9))
                     self._popup.open()
 
@@ -110,7 +110,9 @@ class Sfark(BoxLayout):
                 pass
 
             if "incompatible" in a:
-                print "Version sfArk non prise en charge (version 2 uniquement)"
+                print "Version sfArk non prise en charge \
+                       (version 2 uniquement)"
+
                 def incompatible(self):
                     XBoxLayout.text = 'Version sfArk non prise en charge \
                                       (version 2 uniquement'
@@ -125,8 +127,9 @@ class Sfark(BoxLayout):
 
             if "successful" in a:
                 print "Conversion reussie"
-                rmsfarkPathtxt = "rm " + (sfarkPathtxt) 
+                rmsfarkPathtxt = "rm " + (sfarkPathtxt)
                 subprocess.call(rmsfarkPathtxt, shell=True)
+
                 def Successful(self):
                     XBoxLayout.text = "Conversion reussie"
                     content = XBoxLayout(cancel=self.dismiss_popup)
@@ -137,7 +140,6 @@ class Sfark(BoxLayout):
                 Successful(self)
             else:
                 pass
-
 
             if a == "":
                 print "Aucun fichier selectionne"
@@ -197,7 +199,6 @@ class Sfark(BoxLayout):
 
         sfarkFileName = (sfarkName[lenok:])
         print "sfarkFileName = " + (sfarkFileName)
-
 
         instance = SfarkConvertorApp()
         del instance.sfarkPath[:]
