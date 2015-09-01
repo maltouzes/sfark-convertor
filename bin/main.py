@@ -7,10 +7,7 @@ Only Linux is supported."""
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
-from kivy.factory import Factory
 from kivy.uix.popup import Popup
-from kivy.uix.progressbar import ProgressBar
-from kivy.properties import StringProperty
 
 import subprocess
 import os
