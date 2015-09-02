@@ -41,6 +41,43 @@ class Sfark(BoxLayout):
 # print p
 # return p
 
+    def aucunFichier(self):
+        XBoxLayout.text = "Aucun fichier selectionn" + u'\u00E9'
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="sfArk to sf2", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def Successful(self):
+        XBoxLayout.text = "Conversion reussie"
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="sfArk to sf2", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def incompatible(self):
+        XBoxLayout.text = 'Version sfArk non prise en charge \
+                          (version 2 uniquement'
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="sfArk to sf2", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def corrupt(self):
+        XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="Fichier sfArk non valide",
+                            content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def SfarkxtcSearch(self):
+        XBoxLayout.text = "sfarkxtc introuvable"
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="sfArk to sf2", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
     def convertSfark(self):
         instance = SfarkConvertorApp()
         sfarkxtc = self.sfarkrootpath()
@@ -81,32 +118,14 @@ class Sfark(BoxLayout):
 # test corrupt in sfarkTest
             if "corrupt" in a:
                 print "Veuillez choisir un fichier sfArk"
-
-                def corrupt(self):
-                    XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
-                    content = XBoxLayout(cancel=self.dismiss_popup)
-                    self._popup = Popup(title="Fichier sfArk non valide",
-                                        content=content,
-                                        size_hint=(0.9, 0.9))
-                    self._popup.open()
-
-                corrupt(self)
+                self.corrupt()
             else:
                 pass
 
             if "incompatible" in a:
                 print "Version sfArk non prise en charge \
                        (version 2 uniquement)"
-
-                def incompatible(self):
-                    XBoxLayout.text = 'Version sfArk non prise en charge \
-                                      (version 2 uniquement'
-                    content = XBoxLayout(cancel=self.dismiss_popup)
-                    self._popup = Popup(title="sfArk to sf2", content=content,
-                                        size_hint=(0.9, 0.9))
-                    self._popup.open()
-
-                incompatible(self)
+                self.incompatible()
             else:
                 pass
 
@@ -115,41 +134,18 @@ class Sfark(BoxLayout):
                 rmsfarkPathtxt = "rm " + (sfarkPathtxt)
                 subprocess.call(rmsfarkPathtxt, shell=True)
 
-                def Successful(self):
-                    XBoxLayout.text = "Conversion reussie"
-                    content = XBoxLayout(cancel=self.dismiss_popup)
-                    self._popup = Popup(title="sfArk to sf2", content=content,
-                                        size_hint=(0.9, 0.9))
-                    self._popup.open()
-
-                Successful(self)
+                self.Successful()
             else:
                 pass
 
             if a == "":
                 print "Aucun fichier selectionne"
-
-                def aucunFichier(self):
-                    XBoxLayout.text = "Aucun fichier selectionn" + u'\u00E9'
-                    content = XBoxLayout(cancel=self.dismiss_popup)
-                    self._popup = Popup(title="sfArk to sf2", content=content,
-                                        size_hint=(0.9, 0.9))
-                    self._popup.open()
-
-                aucunFichier(self)
+                self.aucunFichier()
             else:
                 pass
         else:
             print "sfarkxtc introuvable"
-
-            def SfarkxtcSearch(self):
-                XBoxLayout.text = "sfarkxtc introuvable"
-                content = XBoxLayout(cancel=self.dismiss_popup)
-                self._popup = Popup(title="sfArk to sf2", content=content,
-                                    size_hint=(0.9, 0.9))
-                self._popup.open()
-
-            SfarkxtcSearch(self)
+            self.SfarkxtcSearch()
 
 # Others def
 
