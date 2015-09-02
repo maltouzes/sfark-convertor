@@ -7,15 +7,11 @@ Only Linux is supported."""
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
-from kivy.factory import Factory
 from kivy.uix.popup import Popup
-from kivy.uix.progressbar import ProgressBar
-from kivy.properties import StringProperty
 from kivy.clock import mainthread
 
 import shlex
 import subprocess
-from subprocess import Popen, PIPE
 import os
 from threading import Thread
 
@@ -45,7 +41,7 @@ class Sfark(BoxLayout):
     def commande(self, cmd):
         p = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE)
         for l in p.stdout:
-            print l
+            print l 
             self.update_progress(l)
 
     def convertSfark(self):
