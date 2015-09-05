@@ -29,8 +29,10 @@ class Sfark(BoxLayout):
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
+    _popup = ObjectProperty(None)
 
-    def sfarkrootpath(self):
+    @staticmethod
+    def sfark_root_path():
         """ Check if sfarkxtc exist in path """
         if subprocess.call(["which", "sfarkxtc"]) == 0:
             process_sfark = subprocess.check_output(["which", "sfarkxtc"])
@@ -98,7 +100,7 @@ class Sfark(BoxLayout):
     def convert_sfark(self):
         """ Convert processs """
         instance = SfarkConvertorApp()
-        sfarkxtc = self.sfarkrootpath()
+        sfarkxtc = Sfark.sfark_root_path()
 
         print "sfarkPath"
         print instance.sfark_path
@@ -131,7 +133,7 @@ class Sfark(BoxLayout):
 # Check if sfarkPathtxt exist
             if os.path.isfile(sfark_path_txt):
                 result_file = open(sfark_path_txt).read().lower()
-            print "a = " + result_file
+            print "result_file = " + result_file
             type(result_file)
 
 # test corrupt in sfarkTest
@@ -208,5 +210,5 @@ class SfarkConvertorApp(App):
     sfark_file_name = []
 
 if __name__ == '__main__':
-    prog = SfarkConvertorApp()
-    prog.run()
+    PROG = SfarkConvertorApp()
+    PROG.run()
