@@ -14,26 +14,30 @@ import os
 
 
 class LoadDialog(BoxLayout):
+    """ Kivy BoxLayout """
     load = ObjectProperty(None)
     cancel = ObjectProperty(None)
 
 
 class XBoxLayout(BoxLayout):
+    """ Kivy default BoxLayout """
     cancel = ObjectProperty(None)
 
 
 class Sfark(BoxLayout):
+    """ Main Kivy Boxlatout """
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
 
     def sfarkrootpath(self):
+        """ Check if sfarkxtc exist in path """
         if subprocess.call(["which", "sfarkxtc"]) == 0:
-            p = subprocess.check_output(["which", "sfarkxtc"])
-            return p.strip()
+            process_sfark = subprocess.check_output(["which", "sfarkxtc"])
+            return process_sfark.strip()
         else:
-            p = "/"
-            return p
+            process_sfark = "/"
+            return process_sfark
 # Add current dir path for sfarkxtc
 # else:
 # p = subprocess.check_output(["pwd"])
@@ -41,14 +45,24 @@ class Sfark(BoxLayout):
 # print p
 # return p
 
-    def aucunFichier(self):
+    def about(self):
+        """ About me popup """
+        XBoxLayout.text = 'sfArk-convertor, Cre' + u'\u00E9' + ' par Maltouzes'
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="A propos", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def no_file_selected(self):
+        """ Popup window if no file is selected """
         XBoxLayout.text = "Aucun fichier selectionn" + u'\u00E9'
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
-    def Successful(self):
+    def successful(self):
+        """ Popup window successfull conversion  """
         XBoxLayout.text = "Conversion reussie"
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
@@ -56,6 +70,7 @@ class Sfark(BoxLayout):
         self._popup.open()
 
     def incompatible(self):
+        """ Popup window Inconpatible sfArk version """
         XBoxLayout.text = 'Version sfArk non prise en charge \
                           (version 2 uniquement'
         content = XBoxLayout(cancel=self.dismiss_popup)
@@ -64,6 +79,7 @@ class Sfark(BoxLayout):
         self._popup.open()
 
     def corrupt(self):
+        """ Popup window file corrupt """
         XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="Fichier sfArk non valide",
@@ -71,88 +87,93 @@ class Sfark(BoxLayout):
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
-    def SfarkxtcSearch(self):
+    def sfark_xtc_search(self):
+        """ Popup window sfarkxtc not found """
         XBoxLayout.text = "sfarkxtc introuvable"
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
-    def convertSfark(self):
+    def convert_sfark(self):
+        """ Convert processs """
         instance = SfarkConvertorApp()
         sfarkxtc = self.sfarkrootpath()
 
         print "sfarkPath"
-        print instance.sfarkPath
-        sfarkPath = instance.sfarkPath
+        print instance.sfark_path
+        sfark_path = instance.sfark_path
         if os.path.isfile(sfarkxtc):
             print "sfarkxtc found"
 
 # convert file.sfArk to file.sf2
-            sfarkPath = "".join(sfarkPath)
-            sfarkFilePath = os.path.dirname(sfarkPath)
-            print "sfarkFilePath = " + sfarkFilePath
-            sfarkPath = sfarkPath.split("/")
-            sfarkFileName = sfarkPath[-1]
-            print "sfarkFileName = " + sfarkFileName
-            sf2FileName = sfarkFileName[:-5] + "sf2"
-            print "sf2FileName = " + (sf2FileName)
+            sfark_path = "".join(sfark_path)
+            sfark_file_path = os.path.dirname(sfark_path)
+            print "sfarkFilePath = " + sfark_file_path
+            sfark_path = sfark_path.split("/")
+            sfark_file_name = sfark_path[-1]
+            print "sfarkFileName = " + sfark_file_name
+            sf2_file_name = sfark_file_name[:-5] + "sf2"
+            print "sf2FileName = " + (sf2_file_name)
 
-            exe = "cd " + (sfarkFilePath) + " && sfarkxtc " + \
-                  (sfarkFileName) + " " + (sf2FileName) + " > sfarkTest.txt"
+            exe = "cd " + (sfark_file_path) + " && sfarkxtc " + \
+                  (sfark_file_name) + " " + (sf2_file_name) + \
+                  " > sfarkTest.txt"
             print exe
             subprocess.call(exe, shell=True)
 
 # call sfarkTest.txt
-            sfarkPathtxt = (sfarkFilePath) + "/sfarkTest.txt"
-            print "sfarkFilePath = " + sfarkFilePath
-            print "sfarkPathtxt = " + sfarkPathtxt
-            a = ""
+            sfark_path_txt = (sfark_file_path) + "/sfarkTest.txt"
+            print "sfarkFilePath = " + sfark_file_path
+            print "sfarkPathtxt = " + sfark_path_txt
+            result_file = ""
 
 # Check if sfarkPathtxt exist
-            if os.path.isfile(sfarkPathtxt):
-                a = open(sfarkPathtxt).read().lower()
-            print "a = " + a
-            type(a)
+            if os.path.isfile(sfark_path_txt):
+                result_file = open(sfark_path_txt).read().lower()
+            print "a = " + result_file
+            type(result_file)
 
 # test corrupt in sfarkTest
-            if "corrupt" in a:
+            if "corrupt" in result_file or "i/o" in result_file:
                 print "Veuillez choisir un fichier sfArk"
                 self.corrupt()
             else:
                 pass
 
-            if "incompatible" in a:
+            if "incompatible" in result_file:
                 print "Version sfArk non prise en charge \
                        (version 2 uniquement)"
                 self.incompatible()
             else:
                 pass
 
-            if "successful" in a:
+            if "successful" in result_file:
                 print "Conversion reussie"
-                rmsfarkPathtxt = "rm " + (sfarkPathtxt)
-                subprocess.call(rmsfarkPathtxt, shell=True)
+                rm_sfark_path_txt = "rm " + (sfark_path_txt)
+                subprocess.call(rm_sfark_path_txt, shell=True)
 
-                self.Successful()
+                self.successful()
             else:
                 pass
 
-            if a == "":
+            if result_file == "":
                 print "Aucun fichier selectionne"
-                self.aucunFichier()
+                self.no_file_selected()
             else:
                 pass
         else:
             print "sfarkxtc introuvable"
-            self.SfarkxtcSearch()
+            self.sfark_xtc_search()
 
 # Others def
 
     def dismiss_popup(self):
+        """ Method: Used for dismiss popup """
         self._popup.dismiss()
 
     def show_load(self):
+        """ Popup window filechooser """
         content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
         self._popup = Popup(title="Fichier sfark", content=content,
                             size_hint=(0.9, 0.9))
@@ -161,39 +182,31 @@ class Sfark(BoxLayout):
 # Choose sfark file here
 
     def load(self, path, filename):
-
+        """ File select Method """
         instance = SfarkConvertorApp()
-        sfarkPath = os.path.join(path)
-        print "sfarkPath = " + (sfarkPath)
-        sfarkName = (filename)
+        sfark_path = os.path.join(path)
+        print "sfarkPath = " + (sfark_path)
+        sfark_name = (filename)
         print "sfarkName"
-        print sfarkName
-        if not sfarkName:
-            sfarkName = "/"
-        del instance.sfarkPath[:]
-        instance.sfarkPath.extend(sfarkName)
+        print sfark_name
+        if not sfark_name:
+            sfark_name = "/"
+        del instance.sfark_path[:]
+        instance.sfark_path.extend(sfark_name)
         print "sfarkPath"
-        print (instance.sfarkPath)
+        print instance.sfark_path
         self.dismiss_popup()
-        return instance.sfarkPath
-
-    def APropos(self):
-
-        XBoxLayout.text = 'sfArk-convertor, Cre' + u'\u00E9' + ' par Maltouzes'
-        content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="A propos", content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()
+        return instance.sfark_path
 
 # App -------------------------------
 
 
 class SfarkConvertorApp(App):
+    """ Main class  """
     title = "sfArk Convertor"
-    sfarkPath = []
-    sfarkFileName = []
-    pass
+    sfark_path = []
+    sfark_file_name = []
 
 if __name__ == '__main__':
-    app = SfarkConvertorApp()
-    app.run()
+    prog = SfarkConvertorApp()
+    prog.run()
