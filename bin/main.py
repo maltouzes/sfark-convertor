@@ -30,6 +30,7 @@ class Sfark(BoxLayout):
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
     _popup = ObjectProperty(None)
+    result_file = ""
 
     @staticmethod
     def sfark_root_path():
@@ -49,7 +50,7 @@ class Sfark(BoxLayout):
 
     def about(self):
         """ About me popup """
-        XBoxLayout.text = 'sfArk-convertor, Cre' + u'\u00E9' + ' par Maltouzes'
+        XBoxLayout.text = 'sfArk-convertor, Cr' + u'\u00E9' + 'e par Maltouzes'
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="A propos", content=content,
                             size_hint=(0.9, 0.9))
@@ -57,7 +58,8 @@ class Sfark(BoxLayout):
 
     def no_file_selected(self):
         """ Popup window if no file is selected """
-        XBoxLayout.text = "Aucun fichier selectionn" + u'\u00E9'
+        XBoxLayout.text = "Aucun fichier s" + u'\u00E9' + "lectionn" + \
+                          u'\u00E9'
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
                             size_hint=(0.9, 0.9))
@@ -65,7 +67,7 @@ class Sfark(BoxLayout):
 
     def successful(self):
         """ Popup window successfull conversion  """
-        XBoxLayout.text = "Conversion reussie"
+        XBoxLayout.text = "Conversion r" + u'\u00E9' + "ussie"
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
                             size_hint=(0.9, 0.9))
@@ -128,45 +130,48 @@ class Sfark(BoxLayout):
             sfark_path_txt = (sfark_file_path) + "/sfarkTest.txt"
             print "sfarkFilePath = " + sfark_file_path
             print "sfarkPathtxt = " + sfark_path_txt
-            result_file = ""
 
 # Check if sfarkPathtxt exist
             if os.path.isfile(sfark_path_txt):
-                result_file = open(sfark_path_txt).read().lower()
-            print "result_file = " + result_file
-            type(result_file)
+                self.result_file = open(sfark_path_txt).read().lower()
+            self.result_check()
+            rm_sfark_path_txt = "rm " + (sfark_path_txt)
+            subprocess.call(rm_sfark_path_txt, shell=True)
 
-# test corrupt in sfarkTest
-            if "corrupt" in result_file or "i/o" in result_file:
-                print "Veuillez choisir un fichier sfArk"
-                self.corrupt()
-            else:
-                pass
-
-            if "incompatible" in result_file:
-                print "Version sfArk non prise en charge \
-                       (version 2 uniquement)"
-                self.incompatible()
-            else:
-                pass
-
-            if "successful" in result_file:
-                print "Conversion reussie"
-                rm_sfark_path_txt = "rm " + (sfark_path_txt)
-                subprocess.call(rm_sfark_path_txt, shell=True)
-
-                self.successful()
-            else:
-                pass
-
-            if result_file == "":
-                print "Aucun fichier selectionne"
-                self.no_file_selected()
-            else:
-                pass
         else:
             print "sfarkxtc introuvable"
             self.sfark_xtc_search()
+
+    def result_check(self):
+        """ Check output file conversion """
+        print "result_file = " + self.result_file
+        type(self.result_file)
+
+        if "corrupt" in self.result_file or "i/o" in self.result_file:
+            print "Veuillez choisir un fichier sfArk"
+            self.corrupt()
+        else:
+            pass
+
+        if "incompatible" in self.result_file:
+            print "Version sfArk non prise en charge \
+                   (version 2 uniquement)"
+            self.incompatible()
+        else:
+            pass
+
+        if "successful" in self.result_file:
+            print "Conversion reussie"
+
+            self.successful()
+        else:
+            pass
+
+        if self.result_file == "":
+            print "Aucun fichier selectionne"
+            self.no_file_selected()
+        else:
+            pass
 
 # Others def
 
