@@ -119,7 +119,8 @@ class Sfark(BoxLayout):
             print "sfarkFileName = " + sfark_file_name
             sf2_file_name = sfark_file_name[:-5] + "sf2"
             print "sf2FileName = " + (sf2_file_name)
-
+            sfark_file_path = sfark_file_path.replace(" ", "\ ")
+            print sfark_file_path
             exe = "cd " + (sfark_file_path) + " && sfarkxtc " + \
                   (sfark_file_name) + " " + (sf2_file_name) + \
                   " > sfarkTest.txt"
