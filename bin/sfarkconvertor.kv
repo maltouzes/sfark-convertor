@@ -7,21 +7,23 @@ Sfark:
         size_hint_y: None
         Button:
             size_hint_x: 5
-            text: "À propos"
+            text: "About"
             on_release: root.about()
 
     BoxLayout:
         Label:
-            text:"Veuillez choisir la soundfont sfArk à décompresser"
+            text: root.file_hello
             size_hint_x: 25
 
     BoxLayout:
         height:"30dp"
+        size_hint_y: None
         Label:
             text: root.file_selected_is
 
     BoxLayout:
         height:"30dp"
+        size_hint_y: None
         Label:
             text: root.file_selected
 
@@ -29,7 +31,7 @@ Sfark:
         height:"30dp"
         size_hint_y: None
         Button:
-            text: "Choisir fichier"
+            text: "Choose file"
             on_release: root.show_load()
 
     BoxLayout:
@@ -37,7 +39,7 @@ Sfark:
         size_hint_y: None
         Button:
             size_hint_x: 25
-            text: "Convertir"
+            text: "Convert"
             on_press: root.convert_sfark()
 
 
@@ -53,17 +55,17 @@ Sfark:
             size_hint_y: None
             height: 30
             Button:
-                text: "Annuler"
+                text: "Cancel"
                 on_release: root.cancel()
             Button:
-                text: "Choisir"
+                text: "Select"
                 on_release: root.load(filechooser.path, filechooser.selection)
 
 
 <loadingPopup>:
     BoxLayout:
         Label:
-            text:"Conversion en cours"
+            text:"Conversion in progress"
 
         BoxLayout:
             size_hint_y: None
@@ -85,5 +87,5 @@ Sfark:
             size_hint_y: None
             height: 30
             Button:
-                text: "Fermer"
+                text: "Close"
                 on_release: root.cancel()

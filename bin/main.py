@@ -33,6 +33,7 @@ class Sfark(BoxLayout):
     _popup = ObjectProperty(None)
     file_selected_is = StringProperty('No file selected')
     file_selected = StringProperty('')
+    file_hello = StringProperty('Please choose a sfArk file')
     result_file = ""
 
     @staticmethod
@@ -53,16 +54,15 @@ class Sfark(BoxLayout):
 
     def about(self):
         """ About me popup """
-        XBoxLayout.text = 'sfArk-convertor, Cr' + u'\u00E9' + 'e par Maltouzes'
+        XBoxLayout.text = 'sfArk-convertor, made by Maltouzes'
         content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="A propos", content=content,
+        self._popup = Popup(title="About", content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
     def no_file_selected(self):
         """ Popup window if no file is selected """
-        XBoxLayout.text = "Aucun fichier s" + u'\u00E9' + "lectionn" + \
-                          u'\u00E9'
+        XBoxLayout.text = "No file selected"
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
                             size_hint=(0.9, 0.9))
@@ -70,7 +70,7 @@ class Sfark(BoxLayout):
 
     def successful(self):
         """ Popup window successfull conversion  """
-        XBoxLayout.text = "Conversion r" + u'\u00E9' + "ussie"
+        XBoxLayout.text = "Successful conversion"
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
                             size_hint=(0.9, 0.9))
@@ -78,27 +78,27 @@ class Sfark(BoxLayout):
 
     def incompatible(self):
         """ Popup window Inconpatible sfArk version """
-        XBoxLayout.text = 'Version sfArk non prise en charge \
-                          (version 2 uniquement'
+        XBoxLayout.text = 'sfArk file is incompatible (file is not a sfArk v2)'
         content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="sfArk to sf2", content=content,
+        self._popup = Popup(title="Please choose a sfArk v2 file",
+                            content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
     def corrupt(self):
         """ Popup window file corrupt """
-        XBoxLayout.text = 'Veuillez choisir un fichier sfArk'
+        XBoxLayout.text = 'This file is not a sfArk file'
         content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="Fichier sfArk non valide",
+        self._popup = Popup(title="Please choose a sfArk file",
                             content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
     def sfark_xtc_search(self):
         """ Popup window sfarkxtc not found """
-        XBoxLayout.text = "sfarkxtc introuvable"
+        XBoxLayout.text = "Can't find sfarkxtc, please see Installation"
         content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="sfArk to sf2", content=content,
+        self._popup = Popup(title="sfarkxtc not found", content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
@@ -143,7 +143,7 @@ class Sfark(BoxLayout):
             subprocess.call(rm_sfark_path_txt, shell=True)
 
         else:
-            print "sfarkxtc introuvable"
+            print "sfarkxtc not found"
             self.sfark_xtc_search()
 
     def result_check(self):
@@ -152,27 +152,26 @@ class Sfark(BoxLayout):
         type(self.result_file)
 
         if "corrupt" in self.result_file or "i/o" in self.result_file:
-            print "Veuillez choisir un fichier sfArk"
+            print "Please choose a sfArk file"
             self.corrupt()
         else:
             pass
 
         if "incompatible" in self.result_file:
-            print "Version sfArk non prise en charge \
-                   (version 2 uniquement)"
+            print "sfArk file incompatible, please choose a sfArk v2 file"
             self.incompatible()
         else:
             pass
 
         if "successful" in self.result_file:
-            print "Conversion reussie"
+            print "Conversion done"
 
             self.successful()
         else:
             pass
 
         if self.result_file == "":
-            print "Aucun fichier selectionne"
+            print "No file selected"
             self.no_file_selected()
         else:
             pass
@@ -186,7 +185,7 @@ class Sfark(BoxLayout):
     def show_load(self):
         """ Popup window filechooser """
         content = LoadDialog(load=self.load, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Fichier sfark", content=content,
+        self._popup = Popup(title="sfArk file", content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
@@ -209,6 +208,11 @@ class Sfark(BoxLayout):
         self.dismiss_popup()
         self.file_selected_is = 'File selected is'
         self.file_selected = ''.join(instance.sfark_path)
+        if 'sfArk' in str(instance.sfark_path):
+            self.file_hello = "Please, click on convert for decompress the" +\
+                              " sfArk file to sf2 file"
+        else:
+            pass
         return instance.sfark_path
 
 # App -------------------------------
