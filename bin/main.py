@@ -7,6 +7,7 @@ Only Linux is supported."""
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
+from kivy.properties import StringProperty
 from kivy.uix.popup import Popup
 
 import subprocess
@@ -30,6 +31,8 @@ class Sfark(BoxLayout):
     savefile = ObjectProperty(None)
     text_input = ObjectProperty(None)
     _popup = ObjectProperty(None)
+    file_selected_is = StringProperty('No file selected')
+    file_selected = StringProperty('')
     result_file = ""
 
     @staticmethod
@@ -204,6 +207,8 @@ class Sfark(BoxLayout):
         print "sfarkPath"
         print instance.sfark_path
         self.dismiss_popup()
+        self.file_selected_is = 'File selected is'
+        self.file_selected = ''.join(instance.sfark_path)
         return instance.sfark_path
 
 # App -------------------------------
