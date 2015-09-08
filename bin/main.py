@@ -119,6 +119,7 @@ class Sfark(BoxLayout):
             print "sfarkFilePath = " + sfark_file_path
             sfark_path = sfark_path.split("/")
             sfark_file_name = sfark_path[-1]
+            sfark_file_name = sfark_file_name.replace(" ", "\ ")
             print "sfarkFileName = " + sfark_file_name
             sf2_file_name = sfark_file_name[:-5] + "sf2"
             print "sf2FileName = " + (sf2_file_name)
