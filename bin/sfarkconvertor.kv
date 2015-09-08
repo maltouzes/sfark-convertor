@@ -1,34 +1,44 @@
 Sfark:
 <Sfark>:
-	orientation: "vertical"
+    orientation: "vertical"
 
-	BoxLayout:
-		height:"30dp"
-		size_hint_y: None
-		Button:
-		    size_hint_x: 5
-		    text: "À propos"
-			on_release: root.about()
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Button:
+            size_hint_x: 5
+            text: "À propos"
+            on_release: root.about()
 
-	BoxLayout:
-		Label:
-			text:"Veuillez choisir la soundfont sfArk à décompresser"
-			size_hint_x: 25
+    BoxLayout:
+        Label:
+            text:"Veuillez choisir la soundfont sfArk à décompresser"
+            size_hint_x: 25
 
-	BoxLayout:
-		height: "30dp"
-		size_hint_y: None
-		Button:
-			text: "Choisir fichier"
-			on_release: root.show_load()
+    BoxLayout:
+        height:"30dp"
+        Label:
+            text: root.file_selected_is
 
-	BoxLayout:
-		height: "30dp"
-		size_hint_y: None
-		Button:
-			size_hint_x: 25
-			text: "Convertir"
-			on_press: root.convert_sfark()
+    BoxLayout:
+        height:"30dp"
+        Label:
+            text: root.file_selected
+
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Button:
+            text: "Choisir fichier"
+            on_release: root.show_load()
+
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Button:
+            size_hint_x: 25
+            text: "Convertir"
+            on_press: root.convert_sfark()
 
 
 <LoadDialog>:
@@ -51,20 +61,19 @@ Sfark:
 
 
 <loadingPopup>:
-	BoxLayout:
-		Label:
-			text:"Conversion en cours"
+    BoxLayout:
+        Label:
+            text:"Conversion en cours"
 
-		BoxLayout:
-			size_hint_y: None
-			height: 30
-			Button:
-				text: "Fermer"
-				on_release: root.cancel()
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Fermer"
+                on_release: root.cancel()
 
 
 <XBoxLayout>:
-
     BoxLayout:
         size: root.size
         pos: root.pos
