@@ -1,34 +1,46 @@
 Sfark:
 <Sfark>:
-	orientation: "vertical"
+    orientation: "vertical"
 
-	BoxLayout:
-		height:"30dp"
-		size_hint_y: None
-		Button:
-		    size_hint_x: 5
-		    text: "À propos"
-			on_release: root.APropos()
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Button:
+            size_hint_x: 5
+            text: "About"
+            on_release: root.about()
 
-	BoxLayout:
-		Label:
-			text:"Veuillez choisir la soundfont sfArk à décompresser"
-			size_hint_x: 25
+    BoxLayout:
+        Label:
+            text: root.file_hello
+            size_hint_x: 25
 
-	BoxLayout:
-		height: "30dp"
-		size_hint_y: None
-		Button:
-			text: "Choisir fichier"
-			on_release: root.show_load()
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Label:
+            text: root.file_selected_is
 
-	BoxLayout:
-		height: "30dp"
-		size_hint_y: None
-		Button:
-			size_hint_x: 25
-			text: "Convertir"
-			on_press: root.convertSfark()
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Label:
+            text: root.file_selected
+
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Button:
+            text: "Choose file"
+            on_release: root.show_load()
+
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Button:
+            size_hint_x: 25
+            text: "Convert"
+            on_press: root.convert_sfark()
 
 
 <LoadDialog>:
@@ -43,28 +55,27 @@ Sfark:
             size_hint_y: None
             height: 30
             Button:
-                text: "Annuler"
+                text: "Cancel"
                 on_release: root.cancel()
             Button:
-                text: "Choisir"
+                text: "Select"
                 on_release: root.load(filechooser.path, filechooser.selection)
 
 
 <loadingPopup>:
-	BoxLayout:
-		Label:
-			text:"Conversion en cours"
+    BoxLayout:
+        Label:
+            text:"Conversion in progress"
 
-		BoxLayout:
-			size_hint_y: None
-			height: 30
-			Button:
-				text: "Fermer"
-				on_release: root.cancel()
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Fermer"
+                on_release: root.cancel()
 
 
 <XBoxLayout>:
-
     BoxLayout:
         size: root.size
         pos: root.pos
@@ -76,5 +87,5 @@ Sfark:
             size_hint_y: None
             height: 30
             Button:
-                text: "Fermer"
+                text: "Close"
                 on_release: root.cancel()
