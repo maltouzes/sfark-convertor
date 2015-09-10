@@ -1,0 +1,8 @@
+1)Dépendances
+Please make sure g++ and zlibig-dev are already installed before start the scrip!
+
+2) This script will install sfArkLib (soundfonts library) and sfarkxtc please see http://melodymachine.com/ and Arnout Engelen alias raboof: https://github.com/raboof , http://arnout.engelen.eu/    
+
+3) After the installation successful please just run the main.py for start sfArk-convertor
+
+4) Enjoy!
