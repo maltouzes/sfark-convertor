@@ -1,0 +1,38 @@
+Download:
+<Download>:
+    orientation: "vertical"
+
+    BoxLayout:
+        height: "30dp"
+        size_hint_y: None
+        Button:
+            size_hint_x: 5
+            text: "About"
+            on_release: root.about()
+
+    BoxLayout:
+        Label:
+            text: root.file_hello
+            size_hint_x: 25
+
+    BoxLayout:
+        height:"30dp"
+        size_hint_y: None
+        Button:
+            text: "Start Installation"
+            on_release: root.installation()
+
+<XBoxLayout>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        Label:
+            text: root.text
+
+    BoxLayout:
+        height: "30dp"
+        size_hint_y: None
+        Button:
+            text: "Close"
+            on_release: root.cancel()
