@@ -40,15 +40,27 @@ class Download(BoxLayout):
         self._popup.open()
 
     @staticmethod
+    def rm_zip(zip_file):
+        """ Clean up method """
+        rm_file = Download.current_dir + "/" + str(zip_file)
+        if os.path.exists(rm_file) is True:
+            os.remove(zip_file)
+            print zip_file + " removed"
+
+    @staticmethod
     def installation():
         """ Installation process  """
         print Download.first_dl
         print Download.second_dl
+        print Download.name
         Download.sfark_dl(Download.first_dl)
         print Download.name
+        print Download.current_dir
         Download.unzip(Download.name)
+        Download.rm_zip(Download.name)
         Download.sfark_dl(Download.second_dl)
         Download.unzip(Download.name)
+        Download.rm_zip(Download.name)
 
     @staticmethod
     def sfark_dl(file_dl):
@@ -67,6 +79,11 @@ class Download(BoxLayout):
         print "file_unzip"
         zfile = zipfile.ZipFile(file_unzip)
         zfile.extractall("")
+
+    @staticmethod
+    def make_sfarklib():
+        """ Installation of sfarklib  """
+        print "make_sfarklib"
 
     def dismiss_popup(self):
         """ Method: Used for dismiss popup """
