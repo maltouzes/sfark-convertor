@@ -203,40 +203,6 @@ class Sfark(BoxLayout):
             self.file_hello = "sfarkxtc not found, please see Installation"
             self.sfark_xtc_search()
 
-    def result_check(self):
-        """ Check output file conversion """
-        print "result_file = " + self.result_file
-        type(self.result_file)
-
-        if "corrupt" in self.result_file or "i/o" in self.result_file:
-            print "Please choose a sfArk file"
-            self.file_hello = "Please choose a sfArk file: example.sfArk"
-            self.corrupt()
-        else:
-            pass
-
-        if "incompatible" in self.result_file:
-            print "sfArk file incompatible, please choose a sfArk v2 file"
-            self.file_hello = "Please choose a sfArk v2 file"
-            self.incompatible()
-        else:
-            pass
-
-        if "successful" in self.result_file:
-            print "Conversion done"
-            self.file_hello = "Conversion sucess, you can choose" +\
-                              " another sfArk file"
-            self.successful()
-        else:
-            pass
-
-        if self.result_file == "":
-            print "No file selected"
-            self.file_hello = "Please choose a sfArk file"
-            self.no_file_selected()
-        else:
-            pass
-
 # Others def
 
     def dismiss_popup(self):
