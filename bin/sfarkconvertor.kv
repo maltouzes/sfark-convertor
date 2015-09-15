@@ -40,7 +40,8 @@ Sfark:
         Button:
             size_hint_x: 25
             text: "Convert"
-            on_press: root.convert_sfark()
+            on_press: root.loading()
+            on_press: root.test_threading()
 
 
 <LoadDialog>:
@@ -62,18 +63,13 @@ Sfark:
                 on_release: root.load(filechooser.path, filechooser.selection)
 
 
-<loadingPopup>:
+<LoadingPopup>:
     BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
         Label:
-            text:"Conversion in progress"
-
-        BoxLayout:
-            size_hint_y: None
-            height: 30
-            Button:
-                text: "Fermer"
-                on_release: root.cancel()
-
+            text:root.text
 
 <XBoxLayout>:
     BoxLayout:

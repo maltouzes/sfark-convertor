@@ -12,12 +12,17 @@ from kivy.uix.popup import Popup
 
 import subprocess
 import os
+import threading
 
 
 class LoadDialog(BoxLayout):
     """ Kivy BoxLayout """
     load = ObjectProperty(None)
     cancel = ObjectProperty(None)
+
+
+class LoadingPopup(BoxLayout):
+    """ LoadingPopup  """
 
 
 class XBoxLayout(BoxLayout):
@@ -35,6 +40,7 @@ class Sfark(BoxLayout):
     file_selected = StringProperty('')
     file_hello = StringProperty('Please choose a sfArk file')
     result_file = ""
+    exe = StringProperty("/")
 
     @staticmethod
     def sfark_root_path():
@@ -94,6 +100,15 @@ class Sfark(BoxLayout):
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
+    def loading(self):
+        """ Popup window loading """
+        LoadingPopup.text = "Loading, please wait..."
+        content = LoadingPopup()
+        self._popup = Popup(title="Please wait",
+                            content=content,
+                            size_hint=(1, 1))
+        self._popup.open()
+
     def sfark_xtc_search(self):
         """ Popup window sfarkxtc not found """
         XBoxLayout.text = "Can't find sfarkxtc, please see Installation"
@@ -102,27 +117,70 @@ class Sfark(BoxLayout):
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
-    def convert_popup(self):
-        """ Popup window loading """
-        XBoxLayout.text = 'Loading, Please wait'
-        content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="Please wait",
-                            content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()
+    @staticmethod
+    def cmd_method(word):
+        """ Convert word: terminal command compatibility  """
+        word = word.replace(" ", "\\ ")
+        word = word.replace("(", "\\(")
+        word = word.replace(")", "\\)")
+        return word
+
+    def test_convert(self, exe):
+        """ test_convert """
+        p_exe = subprocess.Popen(exe, shell=True)
+        p_exe.communicate()
+        code_return = p_exe.returncode
+        print "code_return"
+        print code_return
+        if code_return != "":
+            print "bye bye"
+            print code_return
+            self._popup.dismiss()
+            if "0" in str(code_return):
+                self.successful()
+            elif "1" in str(code_return):
+                self.corrupt()
+            elif "2" in str(code_return):
+                self.corrupt()
+            elif "3" in str(code_return):
+                self.corrupt()
+            elif "4" in str(code_return):
+                self.corrupt()
+            elif "5" in str(code_return):
+                self.incompatible()
+            elif "6" in str(code_return):
+                self.incompatible()
+            elif "7" in str(code_return):
+                self.corrupt()
+            elif "8" in str(code_return):
+                self.corrupt()
+            elif "9" in str(code_return):
+                self.corrupt()
+            elif "10" in str(code_return):
+                self.corrupt()
+            elif "11" in str(code_return):
+                self.corrupt()
+            else:
+                pass
+        else:
+            pass
+
+    def test_threading(self):
+        """ Call convert_sfark in a thread  """
+        self.convert_sfark()
+        t_exe = threading.Thread(target=self.test_convert, args=(Sfark.exe,))
+        t_exe.start()
 
     def convert_sfark(self):
         """ Convert processs """
         instance = SfarkConvertorApp()
         sfarkxtc = Sfark.sfark_root_path()
-        print self.file_hello
+
         print "sfarkPath"
         print instance.sfark_path
         sfark_path = instance.sfark_path
         if os.path.isfile(sfarkxtc):
             print "sfarkxtc found"
-            self.file_hello = 'Please wait'
-            self.convert_popup()
 
 # convert file.sfArk to file.sf2
             sfark_path = "".join(sfark_path)
@@ -130,33 +188,19 @@ class Sfark(BoxLayout):
             print "sfarkFilePath = " + sfark_file_path
             sfark_path = sfark_path.split("/")
             sfark_file_name = sfark_path[-1]
-            sfark_file_name = sfark_file_name.replace(" ", "\ ")
+            sfark_file_name = Sfark.cmd_method(sfark_file_name)
             print "sfarkFileName = " + sfark_file_name
             sf2_file_name = sfark_file_name[:-5] + "sf2"
             print "sf2FileName = " + (sf2_file_name)
-            sfark_file_path = sfark_file_path.replace(" ", "\ ")
+            cmd_sfark_file_path = Sfark.cmd_method(sfark_file_path)
             print sfark_file_path
-            exe = "cd " + (sfark_file_path) + " && sfarkxtc " + \
-                  (sfark_file_name) + " " + (sf2_file_name) + \
-                  " > sfarkTest.txt"
+            exe = "cd " + (cmd_sfark_file_path) + " && sfarkxtc " + \
+                  (sfark_file_name) + " " + (sf2_file_name)
             print exe
-            subprocess.call(exe, shell=True)
-
-# call sfarkTest.txt
-            sfark_path_txt = (sfark_file_path) + "/sfarkTest.txt"
-            print "sfarkFilePath = " + sfark_file_path
-            print "sfarkPathtxt = " + sfark_path_txt
-            self._popup.dismiss()
-            self.file_hello = 'Please choose a sfArk file'
-# Check if sfarkPathtxt exist
-            if os.path.isfile(sfark_path_txt):
-                self.result_file = open(sfark_path_txt).read().lower()
-            self.result_check()
-            rm_sfark_path_txt = "rm " + (sfark_path_txt)
-            subprocess.call(rm_sfark_path_txt, shell=True)
-
+            Sfark.exe = exe
         else:
             print "sfarkxtc not found"
+            self.file_hello = "sfarkxtc not found, please see Installation"
             self.sfark_xtc_search()
 
     def result_check(self):
@@ -166,25 +210,29 @@ class Sfark(BoxLayout):
 
         if "corrupt" in self.result_file or "i/o" in self.result_file:
             print "Please choose a sfArk file"
+            self.file_hello = "Please choose a sfArk file: example.sfArk"
             self.corrupt()
         else:
             pass
 
         if "incompatible" in self.result_file:
             print "sfArk file incompatible, please choose a sfArk v2 file"
+            self.file_hello = "Please choose a sfArk v2 file"
             self.incompatible()
         else:
             pass
 
         if "successful" in self.result_file:
             print "Conversion done"
-
+            self.file_hello = "Conversion sucess, you can choose" +\
+                              " another sfArk file"
             self.successful()
         else:
             pass
 
         if self.result_file == "":
             print "No file selected"
+            self.file_hello = "Please choose a sfArk file"
             self.no_file_selected()
         else:
             pass
