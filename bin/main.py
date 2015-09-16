@@ -41,12 +41,14 @@ class Sfark(BoxLayout):
     file_hello = StringProperty('Please choose a sfArk file')
     result_file = ""
     exe = StringProperty("/")
+    sfarkxtc_path = StringProperty('/')
 
     @staticmethod
     def sfark_root_path():
         """ Check if sfarkxtc exist in path """
         if subprocess.call(["which", "sfarkxtc"]) == 0:
             process_sfark = subprocess.check_output(["which", "sfarkxtc"])
+            Sfark.sfarkxtc_path = "sfarkxtc found"
             return process_sfark.strip()
         else:
             process_sfark = "/"
@@ -167,9 +169,15 @@ class Sfark(BoxLayout):
 
     def test_threading(self):
         """ Call convert_sfark in a thread  """
-        self.convert_sfark()
-        t_exe = threading.Thread(target=self.test_convert, args=(Sfark.exe,))
-        t_exe.start()
+        Sfark.sfark_root_path()
+        if Sfark.sfarkxtc_path == "sfarkxtc found":
+            self.convert_sfark()
+            t_exe = threading.Thread(target=self.test_convert,
+                                     args=(Sfark.exe,))
+            t_exe.start()
+        else:
+            self._popup.dismiss()
+            self.sfark_xtc_search()
 
     def convert_sfark(self):
         """ Convert processs """
