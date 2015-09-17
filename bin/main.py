@@ -121,7 +121,7 @@ class Sfark(BoxLayout):
             word = word.replace(" ", "\\ ")
             word = word.replace("(", "\\(")
             word = word.replace(")", "\\)")
-        except:
+        except AttributeError:
             pass
         return word
 
@@ -185,19 +185,16 @@ class Sfark(BoxLayout):
             try:
                 sf2_file_name = Sfark.sfark_filename[:-5] + "sf2"
                 sf2_file_name = Sfark.cmd_method(sf2_file_name)
-            except:
+            except TypeError:
                 sf2_file_name = ""
-            print "sf2FileName = "
-            print "sfarkFileName = "
+
             sfark_file_name = Sfark.cmd_method(Sfark.sfark_filename)
-            print sfark_file_name
-            print sf2_file_name
             cmd_sfark_file_path = Sfark.cmd_method(Sfark.sfark_path)
             print Sfark.sfark_path
             try:
                 exe = "cd " + (cmd_sfark_file_path) + " && sfarkxtc " + \
                       (sfark_file_name) + " " + (sf2_file_name)
-            except:
+            except TypeError:
                 exe = "/"
             print exe
             Sfark.exe = exe
@@ -223,44 +220,37 @@ class Sfark(BoxLayout):
 
     def load(self, path, filename):
         """ File select Method """
-        print "Sfark.sfark_path"
+
+        print "path to the file"
         print Sfark.sfark_path
         Sfark.sfark_path = os.path.join(path)
-        print "Sfark.sfark_path"
         print Sfark.sfark_path
-        Sfark.sfark_filename = os.path.join(filename)
-        type_filename = os.path.join(filename)
-        print "type filename"
-        print type(type_filename)
-        print "Sfark.sfark_filename"
-        print type(Sfark.sfark_filename)
-        print Sfark.sfark_filename
+
         try:
-            print Sfark.sfark_filename[-1]
-        except:
-            pass
-        print "Good Sfark.sfark_filename"
-        try:
-            Sfark.sfark_filename = Sfark.sfark_filename[-1].split("/")
-            Sfark.sfark_filename = Sfark.sfark_filename[-1]
-        except:
-            pass
+            Sfark.sfark_filename = os.path.join(filename)[0].split("/")[-1]
+        except IndexError:
+            Sfark.sfark_filename = ""
+        print "sfArk filename"
         print Sfark.sfark_filename
 
         self.dismiss_popup()
+
         self.file_selected_is = 'File selected is'
         try:
             self.file_selected = Sfark.sfark_path + Sfark.sfark_filename
-        except:
+            if Sfark.sfark_filename != "":
+                pass
+            else:
+                self.file_selected_is = "No file selected"
+        except TypeError:
             self.file_selected = "/"
-            self.file_selected_is ="No file selected"
-            pass
+            self.file_selected_is = "No file selected"
+
         if 'sfArk' in str(Sfark.sfark_filename):
             self.file_hello = "Please, click on convert for decompress the" +\
                               " sfArk file to sf2 file"
         else:
             self.file_hello = "Please choose a sfArk file"
-            pass
 
 # App -------------------------------
 
