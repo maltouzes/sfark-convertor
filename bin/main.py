@@ -42,6 +42,8 @@ class Sfark(BoxLayout):
     result_file = ""
     exe = StringProperty("/")
     sfarkxtc_path = StringProperty('/')
+    sfark_path = StringProperty('/')
+    sfark_filename = StringProperty('/')
 
     @staticmethod
     def sfark_root_path():
@@ -53,12 +55,6 @@ class Sfark(BoxLayout):
         else:
             process_sfark = "/"
             return process_sfark
-# Add current dir path for sfarkxtc
-# else:
-# p = subprocess.check_output(["pwd"])
-# p =  p.strip() +"/sfarkxtc"
-# print p
-# return p
 
     def about(self):
         """ About me popup """
@@ -122,9 +118,12 @@ class Sfark(BoxLayout):
     @staticmethod
     def cmd_method(word):
         """ Convert word: terminal command compatibility  """
-        word = word.replace(" ", "\\ ")
-        word = word.replace("(", "\\(")
-        word = word.replace(")", "\\)")
+        try:
+            word = word.replace(" ", "\\ ")
+            word = word.replace("(", "\\(")
+            word = word.replace(")", "\\)")
+        except:
+            pass
         return word
 
     def test_convert(self, exe):
@@ -179,29 +178,28 @@ class Sfark(BoxLayout):
 
     def convert_sfark(self):
         """ Convert processs """
-        instance = SfarkConvertorApp()
         sfarkxtc = Sfark.sfark_root_path()
-
-        print "sfarkPath"
-        print instance.sfark_path
-        sfark_path = instance.sfark_path
         if os.path.isfile(sfarkxtc):
             print "sfarkxtc found"
 
 # convert file.sfArk to file.sf2
-            sfark_path = "".join(sfark_path)
-            sfark_file_path = os.path.dirname(sfark_path)
-            print "sfarkFilePath = " + sfark_file_path
-            sfark_path = sfark_path.split("/")
-            sfark_file_name = sfark_path[-1]
-            sfark_file_name = Sfark.cmd_method(sfark_file_name)
-            print "sfarkFileName = " + sfark_file_name
-            sf2_file_name = sfark_file_name[:-5] + "sf2"
-            print "sf2FileName = " + (sf2_file_name)
-            cmd_sfark_file_path = Sfark.cmd_method(sfark_file_path)
-            print sfark_file_path
-            exe = "cd " + (cmd_sfark_file_path) + " && sfarkxtc " + \
-                  (sfark_file_name) + " " + (sf2_file_name)
+            try:
+                sf2_file_name = Sfark.sfark_filename[:-5] + "sf2"
+                sf2_file_name = Sfark.cmd_method(sf2_file_name)
+            except:
+                sf2_file_name = ""
+            print "sf2FileName = "
+            print "sfarkFileName = "
+            sfark_file_name = Sfark.cmd_method(Sfark.sfark_filename)
+            print sfark_file_name
+            print sf2_file_name
+            cmd_sfark_file_path = Sfark.cmd_method(Sfark.sfark_path)
+            print Sfark.sfark_path
+            try:
+                exe = "cd " + (cmd_sfark_file_path) + " && sfarkxtc " + \
+                      (sfark_file_name) + " " + (sf2_file_name)
+            except:
+                exe = "/"
             print exe
             Sfark.exe = exe
         else:
@@ -226,27 +224,43 @@ class Sfark(BoxLayout):
 
     def load(self, path, filename):
         """ File select Method """
-        instance = SfarkConvertorApp()
-        sfark_path = os.path.join(path)
-        print "sfarkPath = " + (sfark_path)
-        sfark_name = (filename)
-        print "sfarkName"
-        print sfark_name
-        if not sfark_name:
-            sfark_name = "/"
-        del instance.sfark_path[:]
-        instance.sfark_path.extend(sfark_name)
-        print "sfarkPath"
-        print instance.sfark_path
+        print "Sfark.sfark_path"
+        print Sfark.sfark_path
+        Sfark.sfark_path = os.path.join(path)
+        print "Sfark.sfark_path"
+        print Sfark.sfark_path
+        Sfark.sfark_filename = os.path.join(filename)
+        type_filename = os.path.join(filename)
+        print "type filename"
+        print type(type_filename)
+        print "Sfark.sfark_filename"
+        print type(Sfark.sfark_filename)
+        print Sfark.sfark_filename
+        try:
+            print Sfark.sfark_filename[-1]
+        except:
+            pass
+        print "Good Sfark.sfark_filename"
+        try:
+            Sfark.sfark_filename = Sfark.sfark_filename[-1].split("/")
+            Sfark.sfark_filename = Sfark.sfark_filename[-1]
+        except:
+            pass
+        print Sfark.sfark_filename
+
         self.dismiss_popup()
         self.file_selected_is = 'File selected is'
-        self.file_selected = ''.join(instance.sfark_path)
-        if 'sfArk' in str(instance.sfark_path):
+        try:
+            self.file_selected = Sfark.sfark_path + Sfark.sfark_filename
+        except:
+            self.file_selected = "/"
+            pass
+        if 'sfArk' in str(Sfark.sfark_filename):
             self.file_hello = "Please, click on convert for decompress the" +\
                               " sfArk file to sf2 file"
         else:
+            self.file_hello = "Please choose a sfArk file"
             pass
-        return instance.sfark_path
 
 # App -------------------------------
 
@@ -254,8 +268,6 @@ class Sfark(BoxLayout):
 class SfarkConvertorApp(App):
     """ Main class  """
     title = "sfArk Convertor"
-    sfark_path = []
-    sfark_file_name = []
 
 if __name__ == '__main__':
     PROG = SfarkConvertorApp()
