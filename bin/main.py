@@ -34,7 +34,6 @@ class Sfark(BoxLayout):
     """ Main Kivy Boxlatout """
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
-    text_input = ObjectProperty(None)
     _popup = ObjectProperty(None)
     file_selected_is = StringProperty('No file selected')
     file_selected = StringProperty('')
@@ -254,6 +253,7 @@ class Sfark(BoxLayout):
             self.file_selected = Sfark.sfark_path + Sfark.sfark_filename
         except:
             self.file_selected = "/"
+            self.file_selected_is ="No file selected"
             pass
         if 'sfArk' in str(Sfark.sfark_filename):
             self.file_hello = "Please, click on convert for decompress the" +\
