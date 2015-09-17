@@ -19,8 +19,9 @@ Download:
         height:"30dp"
         size_hint_y: None
         Button:
-            text: "Start Installation"
-            on_release: root.installation()
+            text: "Stark Installation"
+            on_release: root.test_threading()
+            on_release: root.loading()
 
 <XBoxLayout>:
     BoxLayout:
@@ -30,9 +31,17 @@ Download:
         Label:
             text: root.text
 
+        BoxLayout:
+            height: 30
+            size_hint_y: None
+            Button:
+                text: "Close"
+                on_release: root.cancel()
+
+<LoadingPopup>:
     BoxLayout:
-        height: "30dp"
-        size_hint_y: None
-        Button:
-            text: "Close"
-            on_release: root.cancel()
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        Label:
+            text: root.text

@@ -7,19 +7,24 @@ for launch sfark-convertor """
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty
 from kivy.properties import ObjectProperty
+from kivy.properties import StringProperty
 from kivy.uix.popup import Popup
 
 import zipfile
 import requests
 import urllib
 import os
+import threading
 
 
 class XBoxLayout(BoxLayout):
     """ Kivy default BoxLayout """
     cancel = ObjectProperty(None)
+
+
+class LoadingPopup(BoxLayout):
+    """ Kivy loading popup """
 
 
 class Download(BoxLayout):
@@ -30,14 +35,8 @@ class Download(BoxLayout):
     first_dl = "https://github.com/raboof/sfArkLib/archive/master.zip"
     second_dl = "https://github.com/raboof/sfarkxtc/archive/master.zip"
     current_dir = os.getcwd()
-
-    def about(self):
-        """ About popup """
-        XBoxLayout.text = "This script will download and install\nsfArkLib and sfarkxtc.\nNeed root privileges."
-        content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="About", content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()
+    test_dl = "https://github.com/maltouzes/sfark-convertor/archive/master.zip"
+    _popup = ObjectProperty(None)
 
     @staticmethod
     def rm_zip(zip_file):
@@ -47,20 +46,40 @@ class Download(BoxLayout):
             os.remove(zip_file)
             print zip_file + " removed"
 
-    @staticmethod
-    def installation():
+    def test_threading(self):
+        """ Call installation in a thread """
+        t_exe = threading.Thread(target=self.installation)
+        t_exe.start()
+
+    def installation(self):
         """ Installation process  """
-        print Download.first_dl
-        print Download.second_dl
-        print Download.name
-        Download.sfark_dl(Download.first_dl)
+        sfarklib_so = "/usr/local/lib/libsfark.so"
+        sfarklib_h = "/usr/local/include/sfArkLib.h"
+        sfarkxtc = "/usr/local/bin/sfarkxtc"
         print Download.name
         print Download.current_dir
+        Download.sfark_dl(Download.test_dl)
         Download.unzip(Download.name)
         Download.rm_zip(Download.name)
-        Download.sfark_dl(Download.second_dl)
-        Download.unzip(Download.name)
-        Download.rm_zip(Download.name)
+
+        # Download.sfark_dl(Download.first_dl)
+        # Download.unzip(Download.name)
+        # Download.rm_zip(Download.name)
+        if os.path.isfile(sfarklib_so) and os.path.isfile(sfarklib_h):
+            # Download.sfark_dl(Download.second_dl)
+            # Download.unzip(Download.name)
+            # Download.rm_zip(Download.name)
+            print "sfArkLib ok"
+            if os.path.isfile(sfarkxtc):
+                print "sfarkxtc ok"
+                self.dismiss_popup()
+                self.finish()
+            else:
+                self.dismiss_popup()
+                self.abort()
+        else:
+            self.dismiss_popup()
+            self.abort()
 
     @staticmethod
     def sfark_dl(file_dl):
@@ -88,6 +107,40 @@ class Download(BoxLayout):
     def dismiss_popup(self):
         """ Method: Used for dismiss popup """
         self._popup.dismiss()
+
+    def about(self):
+        """ About popup """
+        XBoxLayout.text = "This script will download and install" +\
+                          " sfArkLib and sfarkxtc.\nNeed root privileges."
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="About", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def finish(self):
+        """ Popup installation finish  """
+        XBoxLayout.text = "Installation successful you can now run main.py"
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="Insastallation Successful", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
+
+    def abort(self):
+        """ Popup installation aborted """
+        XBoxLayout.text = "Installation aborted, please try again"
+        content = XBoxLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="Installation Aborted",
+                            content=content,
+                            size_hint=(0.9, 0.9))
+
+    def loading(self):
+        """ Loading popup """
+        LoadingPopup.text = "Loading, please wait"
+        content = LoadingPopup()
+        self._popup = Popup(title="Loading",
+                            content=content,
+                            size_hint=(1, 1))
+        self._popup.open()
 
 
 class DownloadApp(App):
