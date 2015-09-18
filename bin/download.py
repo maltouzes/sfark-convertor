@@ -16,6 +16,7 @@ import requests
 import urllib
 import os
 import threading
+import subprocess
 
 
 class XBoxLayout(BoxLayout):
@@ -58,36 +59,30 @@ class Download(BoxLayout):
 
     def installation(self):
         """ Installation process  """
-# where files downloaded should be installed
-        sfarklib_so = "/usr/local/lib/libsfark.so"
-        sfarklib_h = "/usr/local/include/sfArkLib.h"
-        sfarkxtc = "/usr/local/bin/sfarkxtc"
         print Download.name
         print Download.current_dir
-        Download.sfark_dl(Download.test_dl)
-        Download.unzip(Download.name)
-        Download.rm_zip(Download.name)
-
-        # Download.sfark_dl(Download.first_dl)
+        # Download.sfark_dl(Download.test_dl)
         # Download.unzip(Download.name)
         # Download.rm_zip(Download.name)
-# Check if sfarkLib installed successfully
-        if os.path.isfile(sfarklib_so) and os.path.isfile(sfarklib_h):
-            # Download.sfark_dl(Download.second_dl)
-            # Download.unzip(Download.name)
-            # Download.rm_zip(Download.name)
-            print "sfArkLib ok"
-# Check if sfarkxtc installed successfully
-            if os.path.isfile(sfarkxtc):
-                print "sfarkxtc ok"
-                self.dismiss_popup()
-                self.finish()
-            else:
-                self.dismiss_popup()
-                self.abort()
-        else:
-            self.dismiss_popup()
-            self.abort()
+
+        try:
+            Download.sfark_dl(Download.first_dl)
+            Download.unzip(Download.name)
+            Download.rm_zip(Download.name)
+        except KeyError:
+            Download.sfark_dl(Download.first_dl)
+            Download.unzip(Download.name)
+            Download.rm_zip(Download.name)
+
+        self.make_sfarklib()
+        try:
+            Download.sfark_dl(Download.second_dl)
+            Download.unzip(Download.name)
+            Download.rm_zip(Download.name)
+        except KeyError:
+            Download.sfark_dl(Download.second_dl)
+            Download.unzip(Download.name)
+            Download.rm_zip(Download.name)
 
     @staticmethod
     def sfark_dl(file_dl):
@@ -107,10 +102,43 @@ class Download(BoxLayout):
         zfile = zipfile.ZipFile(file_unzip)
         zfile.extractall("")
 
-    @staticmethod
-    def make_sfarklib():
+    def make_sfarklib(self):
         """ Installation of sfarklib  """
         print "make_sfarklib"
+# make sfArkLib-master
+        exe = "cd " + Download.current_dir + "/sfArkLib-master" + " make"
+        print exe
+        subprocess.check_call(exe, shell=True)
+        libsfark = Download.current_dir + "/sfArkLib-master/libsfark.so"
+        sfarklib = Download.current_dir + "/sfArkLib-master/sfArkLib.h"
+# sudo make install sfArklib-master
+        if os.path.isfile(libsfark) and os.path.isfile(sfarklib):
+            exe = "cd " + Download.current_dir + "/sfArkLib-master" +\
+                  "sudo make install"
+            subprocess.check_call(exe, shell=True)
+# sudo ldconfig sfArkLib-master
+            ldconfig = "sudo ldconfig"
+            subprocess.check_call(ldconfig, shell=True)
+# where files downloaded should be installed
+        sfarklib_so = "/usr/local/lib/libsfark.so"
+        sfarklib_h = "/usr/local/include/sfArkLib.h"
+        sfarkxtc = "/usr/local/bin/sfarkxtc"
+# Check if sfarkLib installed successfully
+        if os.path.isfile(sfarklib_so) and os.path.isfile(sfarklib_h):
+            print "sfArkLib ok"
+            exe = "cd " + Download.current_dir + "/sfarkxtc-master\
+                   && sudo make"
+# Check if sfarkxtc installed successfully
+            if os.path.isfile(sfarkxtc):
+                print "sfarkxtc ok"
+                self.dismiss_popup()
+                self.finish()
+            else:
+                self.dismiss_popup()
+                self.abort()
+        else:
+            self.dismiss_popup()
+            self.abort()
 
     def dismiss_popup(self):
         """ Method: Used for dismiss popup """
