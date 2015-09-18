@@ -29,18 +29,23 @@ class LoadingPopup(BoxLayout):
 
 class Download(BoxLayout):
     """ Main Kivy BoxLayout """
+# Kivy property
     _popup = ObjectProperty(None)
+# Start page string
     file_hello = StringProperty('Hello')
+#
     name = StringProperty(None)
+# url file to download
     first_dl = "https://github.com/raboof/sfArkLib/archive/master.zip"
     second_dl = "https://github.com/raboof/sfarkxtc/archive/master.zip"
+# get the current dir of the application
     current_dir = os.getcwd()
+# should removed !!!
     test_dl = "https://github.com/maltouzes/sfark-convertor/archive/master.zip"
-    _popup = ObjectProperty(None)
 
     @staticmethod
     def rm_zip(zip_file):
-        """ Clean up method """
+        """ Revove downloaded zip file """
         rm_file = Download.current_dir + "/" + str(zip_file)
         if os.path.exists(rm_file) is True:
             os.remove(zip_file)
@@ -53,6 +58,7 @@ class Download(BoxLayout):
 
     def installation(self):
         """ Installation process  """
+# where files downloaded should be installed
         sfarklib_so = "/usr/local/lib/libsfark.so"
         sfarklib_h = "/usr/local/include/sfArkLib.h"
         sfarkxtc = "/usr/local/bin/sfarkxtc"
@@ -65,11 +71,13 @@ class Download(BoxLayout):
         # Download.sfark_dl(Download.first_dl)
         # Download.unzip(Download.name)
         # Download.rm_zip(Download.name)
+# Check if sfarkLib installed successfully
         if os.path.isfile(sfarklib_so) and os.path.isfile(sfarklib_h):
             # Download.sfark_dl(Download.second_dl)
             # Download.unzip(Download.name)
             # Download.rm_zip(Download.name)
             print "sfArkLib ok"
+# Check if sfarkxtc installed successfully
             if os.path.isfile(sfarkxtc):
                 print "sfarkxtc ok"
                 self.dismiss_popup()
