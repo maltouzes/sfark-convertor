@@ -32,15 +32,21 @@ class XBoxLayout(BoxLayout):
 
 class Sfark(BoxLayout):
     """ Main Kivy Boxlatout """
+# BoxLayout Property
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
     _popup = ObjectProperty(None)
+
+# Start page string
     file_selected_is = StringProperty('No file selected')
     file_selected = StringProperty('')
     file_hello = StringProperty('Please choose a sfArk file')
-    result_file = ""
+
+# subprocess command
     exe = StringProperty("/")
+# see sfark_root_path method
     sfarkxtc_path = StringProperty('/')
+# path to sfArk file and sfArk file name
     sfark_path = StringProperty('/')
     sfark_filename = StringProperty('/')
 
@@ -126,7 +132,7 @@ class Sfark(BoxLayout):
         return word
 
     def test_convert(self, exe):
-        """ test_convert """
+        """ call command exe with subprocess and print result """
         p_exe = subprocess.Popen(exe, shell=True)
         p_exe.communicate()
         code_return = p_exe.returncode
@@ -164,7 +170,7 @@ class Sfark(BoxLayout):
             pass
 
     def test_threading(self):
-        """ Call convert_sfark in a thread """
+        """ Call convert_sfark then test_convert in a thread """
         Sfark.sfark_root_path()
         if Sfark.sfarkxtc_path == "sfarkxtc found":
             self.convert_sfark()
@@ -176,7 +182,7 @@ class Sfark(BoxLayout):
             self.sfark_xtc_search()
 
     def convert_sfark(self):
-        """ Convert processs """
+        """ create command line: exe """
         sfarkxtc = Sfark.sfark_root_path()
         if os.path.isfile(sfarkxtc):
             print "sfarkxtc found"
