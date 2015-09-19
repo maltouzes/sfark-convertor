@@ -10,6 +10,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 from kivy.uix.popup import Popup
+# from kivy.uix.textinput import TextInput
+# from kivy.uix.label import Label
 
 import zipfile
 import requests
@@ -21,6 +23,11 @@ import subprocess
 
 class XBoxLayout(BoxLayout):
     """ Kivy default BoxLayout """
+    cancel = ObjectProperty(None)
+
+
+class PassLayout(BoxLayout):
+    """ Kivy passphrase BoxLayout """
     cancel = ObjectProperty(None)
 
 
@@ -41,8 +48,6 @@ class Download(BoxLayout):
     second_dl = "https://github.com/raboof/sfarkxtc/archive/master.zip"
 # get the current dir of the application
     current_dir = os.getcwd()
-# should removed !!!
-    test_dl = "https://github.com/maltouzes/sfark-convertor/archive/master.zip"
 
     @staticmethod
     def rm_zip(zip_file):
@@ -61,10 +66,6 @@ class Download(BoxLayout):
         """ Installation process  """
         print Download.name
         print Download.current_dir
-        # Download.sfark_dl(Download.test_dl)
-        # Download.unzip(Download.name)
-        # Download.rm_zip(Download.name)
-
         try:
             Download.sfark_dl(Download.first_dl)
             Download.unzip(Download.name)
@@ -106,6 +107,7 @@ class Download(BoxLayout):
         """ Installation of sfarklib  """
         print "make_sfarklib"
 # make sfArkLib-master
+        self.passphrase_popup()
         exe = "cd " + Download.current_dir + "/sfArkLib-master" + " && make"
         print exe
         subprocess.check_call(exe, shell=True)
@@ -147,6 +149,15 @@ class Download(BoxLayout):
     def dismiss_popup(self):
         """ Method: Used for dismiss popup """
         self._popup.dismiss()
+
+    def passphrase_popup(self):
+        """ Root privileges Popup """
+        PassLayout.text = "Please enter your root password"
+        PassLayout.textinput = ''
+        content = PassLayout(cancel=self.dismiss_popup)
+        self._popup = Popup(title="Need root privileges", content=content,
+                            size_hint=(0.9, 0.9))
+        self._popup.open()
 
     def about(self):
         """ About popup """

@@ -23,6 +23,26 @@ Download:
             on_release: root.test_threading()
             on_release: root.loading()
 
+<PassLayout>:
+    orientation: "vertical"
+    BoxLayout:
+        Label:
+            text: root.text
+    BoxLayout:
+        height: "40dp"
+        size_hint_y: None
+        TextInput:
+            text: root.textinput
+            size_hint_x: 50
+        Button:
+            text: "Cancel"
+            size_hint_x: 25
+            on_release: root.cancel()
+        Button:
+            text: "Ok"
+            size_hint_x: 25
+            on_release: root.cancel()
+
 <XBoxLayout>:
     BoxLayout:
         size: root.size
