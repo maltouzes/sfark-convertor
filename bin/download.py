@@ -74,7 +74,6 @@ class Download(BoxLayout):
             Download.unzip(Download.name)
             Download.rm_zip(Download.name)
 
-        self.make_sfarklib()
         try:
             Download.sfark_dl(Download.second_dl)
             Download.unzip(Download.name)
@@ -83,6 +82,7 @@ class Download(BoxLayout):
             Download.sfark_dl(Download.second_dl)
             Download.unzip(Download.name)
             Download.rm_zip(Download.name)
+        self.make_sfarklib()
 
     @staticmethod
     def sfark_dl(file_dl):
@@ -106,36 +106,40 @@ class Download(BoxLayout):
         """ Installation of sfarklib  """
         print "make_sfarklib"
 # make sfArkLib-master
-        exe = "cd " + Download.current_dir + "/sfArkLib-master" + " make"
+        exe = "cd " + Download.current_dir + "/sfArkLib-master" + " && make"
         print exe
         subprocess.check_call(exe, shell=True)
         libsfark = Download.current_dir + "/sfArkLib-master/libsfark.so"
         sfarklib = Download.current_dir + "/sfArkLib-master/sfArkLib.h"
 # sudo make install sfArklib-master
         if os.path.isfile(libsfark) and os.path.isfile(sfarklib):
-            exe = "cd " + Download.current_dir + "/sfArkLib-master" +\
-                  "sudo make install"
+            exe = "cd && cd " + Download.current_dir + "/sfArkLib-master" +\
+                  " && sudo make install"
+            print exe
             subprocess.check_call(exe, shell=True)
 # sudo ldconfig sfArkLib-master
             ldconfig = "sudo ldconfig"
+            print ldconfig
             subprocess.check_call(ldconfig, shell=True)
 # where files downloaded should be installed
-        sfarklib_so = "/usr/local/lib/libsfark.so"
-        sfarklib_h = "/usr/local/include/sfArkLib.h"
-        sfarkxtc = "/usr/local/bin/sfarkxtc"
+            sfarklib_so = "/usr/local/lib/libsfark.so"
+            sfarklib_h = "/usr/local/include/sfArkLib.h"
+            sfarkxtc = "/usr/local/bin/sfarkxtc"
 # Check if sfarkLib installed successfully
-        if os.path.isfile(sfarklib_so) and os.path.isfile(sfarklib_h):
-            print "sfArkLib ok"
-            exe = "cd " + Download.current_dir + "/sfarkxtc-master\
+            if os.path.isfile(sfarklib_so) and os.path.isfile(sfarklib_h):
+                print "sfArkLib ok"
+                exe = "cd && cd " + Download.current_dir + "/sfarkxtc-master\
                    && sudo make"
+                print exe
+                subprocess.check_call(exe, shell=True)
 # Check if sfarkxtc installed successfully
-            if os.path.isfile(sfarkxtc):
-                print "sfarkxtc ok"
-                self.dismiss_popup()
-                self.finish()
-            else:
-                self.dismiss_popup()
-                self.abort()
+                if os.path.isfile(sfarkxtc):
+                    print "sfarkxtc ok"
+                    self.dismiss_popup()
+                    self.finish()
+                else:
+                    self.dismiss_popup()
+                    self.abort()
         else:
             self.dismiss_popup()
             self.abort()
