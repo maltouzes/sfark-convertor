@@ -7,11 +7,11 @@ Only Linux is supported."""
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
-from kivy.properties import StringProperty
 from kivy.uix.popup import Popup
+from kivy.properties import StringProperty
 
-import subprocess
 import os
+import subprocess
 import threading
 
 
