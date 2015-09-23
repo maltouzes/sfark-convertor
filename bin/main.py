@@ -124,9 +124,7 @@ class Sfark(BoxLayout):
     def cmd_method(word):
         """ Convert word: terminal command compatibility  """
         try:
-            word = word.replace(" ", "\\ ")
-            word = word.replace("(", "\\(")
-            word = word.replace(")", "\\)")
+            word = word.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
         except AttributeError:
             pass
         return word
