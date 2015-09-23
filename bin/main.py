@@ -124,7 +124,8 @@ class Sfark(BoxLayout):
     def cmd_method(word):
         """ Convert word: terminal command compatibility  """
         try:
-            word = word.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+            word = word.replace(" ", "\\ ").replace("(", "\\(")\
+                       .replace(")", "\\)")
         except AttributeError:
             pass
         return word
@@ -141,26 +142,6 @@ class Sfark(BoxLayout):
             if "0" in str(code_return):
                 self.successful()
             elif "1" in str(code_return):
-                self.corrupt()
-            elif "2" in str(code_return):
-                self.corrupt()
-            elif "3" in str(code_return):
-                self.corrupt()
-            elif "4" in str(code_return):
-                self.corrupt()
-            elif "5" in str(code_return):
-                self.incompatible()
-            elif "6" in str(code_return):
-                self.incompatible()
-            elif "7" in str(code_return):
-                self.corrupt()
-            elif "8" in str(code_return):
-                self.corrupt()
-            elif "9" in str(code_return):
-                self.corrupt()
-            elif "10" in str(code_return):
-                self.corrupt()
-            elif "11" in str(code_return):
                 self.corrupt()
             else:
                 pass
