@@ -26,4 +26,4 @@ Run main.py
 
 You can always reach me on:
 * Github: http://github.com/maltouzes/sfark-convertor
-* Email: maltouzes@gmail.com
+* Email: maltouzes [at] gmail [dot] com
