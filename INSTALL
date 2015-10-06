@@ -1,19 +1,17 @@
 Installing Sfark-convertor
 =================
-!!! YOU SHOULD NOT USE THIS PROJECT !!!
 
-Still in alpha: If you want to convert Sfark file to sf2 please take a look at this: https://github.com/raboof/sfarkxtc
+Still in beta
 
 Requirements:
 
-Sfark-convertor should work on any fairly recent GNU/Linux system, the following
-dependencies are required:
+The following dependencies are required:
 
     Python 2.7.6
-    Kivy 1.9.0
+    Kivy 1.9.0 (should work on Kivy 1.7.2 too, but not tested)
     https://github.com/raboof/sfArkLib
     https://github.com/raboof/sfarkxtc (need root installation: sudo make install
 
-Usage
+Usage:
 
 Run main.py
