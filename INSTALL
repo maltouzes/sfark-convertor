@@ -12,6 +12,10 @@ The following dependencies are required:
     https://github.com/raboof/sfArkLib
     https://github.com/raboof/sfarkxtc (need root installation: sudo make install
 
+Installation:
+ - On Ubuntu (15.10 and above) and Debian (8 and above) all the dependencies should be in the official repositories
+ sudo apt-get install sfarkxtc python-kivy
+
 Usage:
 
 Run main.py
