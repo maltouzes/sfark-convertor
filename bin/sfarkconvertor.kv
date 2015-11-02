@@ -42,8 +42,9 @@ Sfark:
         Button:
             size_hint_x: 25
             text: "Convert"
-            on_press: root.test_threading()
-            on_press: root.loading()
+            on_press:
+                root.test_threading()
+                root.loading()
 
 
 <LoadDialog>:

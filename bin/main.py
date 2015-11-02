@@ -16,7 +16,7 @@ import threading
 
 
 class LoadDialog(BoxLayout):
-    """ Kivy BoxLayout """
+    """ BoxLayout used by show_load """
     load = ObjectProperty(None)
     cancel = ObjectProperty(None)
 
@@ -26,27 +26,27 @@ class LoadingPopup(BoxLayout):
 
 
 class XBoxLayout(BoxLayout):
-    """ Kivy default BoxLayout """
+    """ Default BoxLayout """
     cancel = ObjectProperty(None)
 
 
 class Sfark(BoxLayout):
     """ Main Kivy Boxlatout """
-# BoxLayout Property
+    # BoxLayout Property
     loadfile = ObjectProperty(None)
     savefile = ObjectProperty(None)
     _popup = ObjectProperty(None)
 
-# Start page string
+    # Start page string
     file_selected_is = StringProperty('No file selected')
     file_selected = StringProperty('')
     file_hello = StringProperty('Please choose a sfArk file')
 
-# subprocess command
+    # subprocess command
     exe = StringProperty("/")
-# see sfark_root_path method
+    # see sfark_root_path method
     sfarkxtc_path = StringProperty('/')
-# path to sfArk file and sfArk file name
+    # path to sfArk file and sfArk file name
     sfark_path = StringProperty('/')
     sfark_filename = StringProperty('/')
 
@@ -82,15 +82,6 @@ class Sfark(BoxLayout):
         XBoxLayout.text = "Successful conversion"
         content = XBoxLayout(cancel=self.dismiss_popup)
         self._popup = Popup(title="sfArk to sf2", content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()
-
-    def incompatible(self):
-        """ Popup window Inconpatible sfArk version """
-        XBoxLayout.text = 'sfArk file is incompatible (file is not a sfArk v2)'
-        content = XBoxLayout(cancel=self.dismiss_popup)
-        self._popup = Popup(title="Please choose a sfArk v2 file",
-                            content=content,
                             size_hint=(0.9, 0.9))
         self._popup.open()
 
@@ -135,10 +126,8 @@ class Sfark(BoxLayout):
         p_exe = subprocess.Popen(exe, shell=True)
         p_exe.communicate()
         code_return = p_exe.returncode
-        print "code_return"
-        print code_return
         if code_return != "":
-            print self._popup.dismiss()
+            self._popup.dismiss()
             if "0" in str(code_return):
                 self.successful()
             elif "1" in str(code_return):
@@ -164,9 +153,7 @@ class Sfark(BoxLayout):
         """ create command line: exe """
         sfarkxtc = Sfark.sfark_root_path()
         if os.path.isfile(sfarkxtc):
-            print "sfarkxtc found"
-
-# convert file.sfArk to file.sf2
+            # convert file.sfArk to file.sf2
             try:
                 sf2_file_name = Sfark.sfark_filename[:-5] + "sf2"
                 sf2_file_name = Sfark.cmd_method(sf2_file_name)
@@ -175,20 +162,15 @@ class Sfark(BoxLayout):
 
             sfark_file_name = Sfark.cmd_method(Sfark.sfark_filename)
             cmd_sfark_file_path = Sfark.cmd_method(Sfark.sfark_path)
-            print Sfark.sfark_path
             try:
                 exe = "cd " + (cmd_sfark_file_path) + " && sfarkxtc " + \
                       (sfark_file_name) + " " + (sf2_file_name)
             except TypeError:
                 exe = "/"
-            print exe
             Sfark.exe = exe
         else:
-            print "sfarkxtc not found"
             self.file_hello = "sfarkxtc not found, please see Installation"
             self.sfark_xtc_search()
-
-# Others def
 
     def dismiss_popup(self):
         """ Method: Used for dismiss popup """
@@ -205,18 +187,12 @@ class Sfark(BoxLayout):
 
     def load(self, path, filename):
         """ File select Method """
-
-        print "path to the file"
-        print Sfark.sfark_path
         Sfark.sfark_path = os.path.join(path)
-        print Sfark.sfark_path
 
         try:
             Sfark.sfark_filename = os.path.join(filename)[0].split("/")[-1]
         except IndexError:
             Sfark.sfark_filename = ""
-        print "sfArk filename"
-        print Sfark.sfark_filename
 
         self.dismiss_popup()
 
@@ -236,8 +212,6 @@ class Sfark(BoxLayout):
                               " sfArk file to sf2 file"
         else:
             self.file_hello = "Please choose a sfArk file"
-
-# App -------------------------------
 
 
 class SfarkConvertorApp(App):
