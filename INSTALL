@@ -13,8 +13,11 @@ The following dependencies are required:
     https://github.com/raboof/sfarkxtc (need root installation: sudo make install
 
 Installation:
- - On Ubuntu (15.10 and above) and Debian (8 and above) all the dependencies should be in the official repositories
+ - On UBUNTU (15.10 and above) and DEBIAN (8 and above) all the dependencies should be in the official repositories
  sudo apt-get install sfarkxtc python-kivy
+
+ - On other LINUX system (on Mac/OSX, and BSD too) please insal the
+   dependencies. sfarkxtc must be installed in ROOT!
 
 Usage:
 

@@ -6,6 +6,7 @@ Only Linux is supported."""
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import BooleanProperty
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
 from kivy.properties import StringProperty
@@ -49,6 +50,9 @@ class Sfark(BoxLayout):
     # path to sfArk file and sfArk file name
     sfark_path = StringProperty('/')
     sfark_filename = StringProperty('/')
+
+    # Button state: True or False
+    button_state = BooleanProperty(True)
 
     @staticmethod
     def sfark_root_path():
@@ -189,6 +193,11 @@ class Sfark(BoxLayout):
         """ File select Method """
         Sfark.sfark_path = os.path.join(path)
 
+        filename_list = "".join(filename)
+        filename_split = os.path.splitext(filename_list)
+        filename_ext = filename_split[1]
+        print filename_ext
+
         try:
             Sfark.sfark_filename = os.path.join(filename)[0].split("/")[-1]
         except IndexError:
@@ -203,15 +212,20 @@ class Sfark(BoxLayout):
                 pass
             else:
                 self.file_selected_is = "No file selected"
+            self.button_state = True
         except TypeError:
             self.file_selected = "/"
             self.file_selected_is = "No file selected"
+            self.button_state = True
 
         if 'sfArk' in str(Sfark.sfark_filename):
             self.file_hello = "Please, click on convert for decompress the" +\
                               " sfArk file to sf2 file"
+            self.button_state = False
         else:
             self.file_hello = "Please choose a sfArk file"
+            self.button_state = True
+        print self.button_state
 
 
 class SfarkConvertorApp(App):

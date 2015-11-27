@@ -6,7 +6,7 @@ A simple GUI Sfark decompressor to sf2
 
 sfark-convertor is a simple GUI for converts soundfonts in the legacy sfArk v2 file format to sf2.
 
-Only Linux is supported.
+Only Linux is supported, but should work on Mac and BSD too.
 
 Still in beta !
 
